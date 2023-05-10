@@ -13,6 +13,17 @@
   align-items: center;
   background: #80808024;
   justify-content: center;
+  flex-direction: column;
+
+  p {
+    position: absolute;
+    top: 0;
+    margin-top: 180px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 28px;
+    color: #240747;
+  }
 
   .login-input {
     margin-bottom: 14px;

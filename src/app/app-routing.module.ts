@@ -13,4 +13,11 @@ export const Approutes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+  {
+    path: 'users',
+    loadChildren: () =>
+      import('./users/users.module').then(
+        (m) => m.UsersModule
+      ),
+  },
 ];
