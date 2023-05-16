@@ -11,3 +11,35 @@
     width: 100%;
   }
 }
+
+
+h2 {
+  margin: 34px 0;
+}
+
+input {
+  height: 45px;
+}
+
+.wrapper-button {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 50px;
+}
+
+button {
+  background: #240747;
+  color: white;
+  height: 45px;
+
+  &:hover {
+    background: white;
+    text-decoration: none;
+    border: 1px solid #240747;
+    color: #240747;
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}

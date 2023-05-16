@@ -2,36 +2,73 @@
   <div class="sidebar"></div>
   <div class="content">
     <div class="container">
+
       <div class="row">
         <div class="col-12">
-          
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <h2>Lista de Usuários</h2>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-4">
+          <form action="">
+            <input
+              type="text"
+              name="filter"
+              class="form-control"
+              placeholder="Buscar..."
+            />
+          </form>
+        </div>
+    
+        <div class="col-8 wrapper-button">
+          <button class="btn btn-lg" >Adicionar Usuário</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <ngx-datatable
+            class="material container striped"
+            [rows]="rows"
+            [columnMode]="'flex'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            rowHeight="auto"
+            [limit]="6"
+            [messages]="{ emptyMessage: 'Nenhum aluno encontrado.' }"
+          >
+            <ngx-datatable-column
+              name="Nome"
+              prop="name"
+              [flexGrow]="0.25"
+            ></ngx-datatable-column>
 
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Nome</th>
-              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-            </ng-container>
+            <ngx-datatable-column
+              name="Email"
+              prop="email"
+              [flexGrow]="0.12"
+            ></ngx-datatable-column>
+            <ngx-datatable-column
+              name="Cargo"
+              prop="role"
+              [flexGrow]="0.25"
+            ></ngx-datatable-column>
 
-          
-            <ng-container matColumnDef="email">
-              <th mat-header-cell *matHeaderCellDef>Email</th>
-              <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-            </ng-container>
-
-          
-            <ng-container matColumnDef="role">
-              <th mat-header-cell *matHeaderCellDef>Cargo</th>
-              <td mat-cell *matCellDef="let element">{{ element.role }}</td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-                Nenhum usuário encontrado
-              </td>
-            </tr>
-          </table>
+            <!-- <ngx-datatable-column name="Ações" prop="" [flexGrow]="0.1">
+              <ng-template ngx-datatable-cell-template let-value="value">
+                <a class="link mr-2" (click)="viewStudent(value.id)">
+                  <i class="fas fa-eye fa-lg"></i>
+                </a>
+                <a class="link mr-2" (click)="editStudent(value.id)">
+                  <i class="fas fa-edit fa-lg"></i>
+                </a>
+                <a class="link" (click)="confirmDeleteStudent(value.id)">
+                  <i class="fas fa-trash text-danger fa-lg"></i>
+                </a>
+              </ng-template>
+            </ngx-datatable-column> -->
+          </ngx-datatable>
         </div>
       </div>
     </div>

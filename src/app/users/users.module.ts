@@ -4,6 +4,7 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { UsersRoutes } from './authentication.routing';
 import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table'  
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
 
@@ -15,6 +16,7 @@ import { MatTableModule } from '@angular/material/table'
     CommonModule,
     MatTableModule,
     RouterModule.forChild(UsersRoutes),
+    NgxDatatableModule,
   ]
 })
 export class UsersModule { }
