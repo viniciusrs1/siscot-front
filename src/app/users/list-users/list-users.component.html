@@ -57,7 +57,7 @@
 
             <ngx-datatable-column name="Ações" prop="" [flexGrow]="0.1">
               <ng-template ngx-datatable-cell-template let-value="value">
-                <a class="link mr-2" >
+                <a class="link mr-2" (click)="viewUser(value.id)">
                   <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="visibility"></mat-icon>
                 </a>
                 <a class="link mr-2" >

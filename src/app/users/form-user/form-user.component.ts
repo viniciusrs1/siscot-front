@@ -8,13 +8,20 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./form-user.component.scss'],
 })
 export class FormUserComponent implements OnInit {
-  addUserForm: FormGroup = Object.create(null);
+  @Input() item: any = null;
   @Input() disabled: any = null;
+  addUserForm: FormGroup = Object.create(null);
 
   constructor(private router: Router, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.createForm();
+  }
+
+  ngOnChanges(): void {
+    if (this.addUserForm && this.item) {
+      this.populateForm();
+    }
   }
 
   createForm(): void {
@@ -42,6 +49,14 @@ export class FormUserComponent implements OnInit {
         },
         [Validators.required]
       ),
+    });
+  }
+
+  populateForm(): void {
+    this.addUserForm.setValue({
+      nome: this.item?.nome,
+      email: this.item?.idade,
+      role: this.item?.role,
     });
   }
 
@@ -86,6 +101,6 @@ export class FormUserComponent implements OnInit {
   }
 
   backPage(): void {
-    this.router.navigateByUrl('/students/list');
+    this.router.navigateByUrl('/users/list');
   }
 }
