@@ -1,5 +1,17 @@
 .sidebar {
-    height: 100vh;
-    width: 350px;
-    background: #e1a698;
+  height: 100vh;
+  width: 260px;
+  background: #e1a698a8;
+
+  img {
+    width: inherit;
   }
+
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    align-items: center;
+  }
+}

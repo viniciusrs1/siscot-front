@@ -43,6 +43,7 @@ export class ListUsersComponent {
   constructor(private route: Router) {}
 
   addUser() {
+    console.log('ento');
     this.route.navigateByUrl('users/form/add');
   }
 
