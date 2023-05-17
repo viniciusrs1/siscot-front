@@ -50,4 +50,8 @@ export class ListUsersComponent {
     console.log('aq', id);
     this.route.navigate(['/users/form/', 'view', id]);
   }
+
+  editUser(id: number): void {
+    this.route.navigate(['/users/form/', 'edit', id]);
+  }
 }

@@ -1,18 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-form-user',
   templateUrl: './form-user.component.html',
   styleUrls: ['./form-user.component.scss'],
 })
-export class FormUserComponent implements OnInit {
+export class FormUserComponent implements OnInit, OnChanges {
   @Input() item: any = null;
   @Input() disabled: any = null;
   addUserForm: FormGroup = Object.create(null);
 
-  constructor(private router: Router, public route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    public route: ActivatedRoute,
+    private usersService: UsersService
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -75,29 +80,29 @@ export class FormUserComponent implements OnInit {
   }
 
   addUser(data: any): void {
-    // this.studentsService.addStudent(data).subscribe({
-    //   next: () => {
-    //     alert('cadastrado com sucesso');
-    //     this.router.navigate(['/students/list']);
-    //   },
-    //   error: (error: any) => {
-    //     console.log(error);
-    //   },
-    // });
-    console.log('user adicionado', data);
+    this.usersService.addUser(data).subscribe({
+      next: () => {
+        alert('cadastrado com sucesso');
+        this.router.navigate(['/users/list']);
+      },
+      error: (error: any) => {
+        alert('erro ao cadastrar');
+        console.log(error);
+      },
+    });
   }
 
   editUser(data: any): void {
-    // this.studentsService.updateStudent(data).subscribe({
-    //   next: () => {
-    //     alert('editado com sucesso');
-    //     this.router.navigate(['/students/list']);
-    //   },
-    //   error: (error: any) => {
-    //     console.log(error);
-    //   },
-    // });
-    console.log('user editado', data);
+    this.usersService.updateUser(data).subscribe({
+      next: () => {
+        alert('cadastrado com sucesso');
+        this.router.navigate(['/users/list']);
+      },
+      error: (error: any) => {
+        alert('erro ao cadastrar');
+        console.log(error);
+      },
+    });
   }
 
   backPage(): void {
