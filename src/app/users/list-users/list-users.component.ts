@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 
@@ -19,4 +20,13 @@ export class ListUsersComponent {
     { name: 'Guilherme Barbosa', email: 'broxa.gui@gmail.com', role: 'ASSISTENTE SOCIAL'},
   
   ];
+
+  constructor(
+    private route: Router,
+  
+  ) {}
+
+  addUser() {
+    this.route.navigateByUrl('users/form/add');
+  }
 }

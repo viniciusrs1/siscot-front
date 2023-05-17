@@ -1,0 +1,53 @@
+.users {
+  display: flex;
+
+  .content {
+    width: 100%;
+
+    .form-row {
+      padding: 25px 0;
+    }
+
+    .wrapper-save-user {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .save-user {
+      min-width: 110.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #240747;
+      color: white;
+      border: 1px solid #240747;
+
+      &:hover {
+        background: white;
+        text-decoration: none;
+        border: 1px solid #240747;
+        color: #240747 !important;
+      }
+
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
+
+    .back-button {
+      background-color: #e1a698;
+      border: 1px solid #e1a698;
+
+      &:hover {
+        background: white;
+        text-decoration: none;
+        border: 1px solid #e1a698;
+        color: #e1a698 !important;
+      }
+
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
+  }
+}
