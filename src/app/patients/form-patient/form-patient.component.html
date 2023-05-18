@@ -1,0 +1,153 @@
+<div class="patients">
+  <app-sidebar></app-sidebar>
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="form-row">Adicionar Paciente</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <form [formGroup]="addPatientForm" (ngSubmit)="onSubmit()">
+          <div class="row form-row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Nome</mat-label>
+
+                  <input type="text" matInput formControlName="name" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('name')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Gênero</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="MASCULINO">Masculino</mat-option>
+                    <mat-option value="FEMININO">Feminino</mat-option>
+                    <mat-option value="OUTRO">Outro</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Data de Nascimento</mat-label>
+
+                  <input type="text" matInput formControlName="date" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('date')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Endereço</mat-label>
+
+                  <input type="text" matInput formControlName="address" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('address')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Número</mat-label>
+
+                  <input type="text" matInput formControlName="number" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('number')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Telefone</mat-label>
+
+                  <input type="text" matInput formControlName="phone" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('phone')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Email</mat-label>
+
+                  <input type="text" matInput formControlName="email" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('email')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group form-row">
+            <div class="row">
+              <div class="col-md-6">
+                <button
+                  class="btn btn-lg btn-warning text-white back-button"
+                  (click)="backPage()"
+                >
+                  Voltar
+                </button>
+              </div>
+              <div class="col-md-6 wrapper-save-patient">
+                <button
+                  *ngIf="!disabled"
+                  class="btn btn-lg btn-success text-white save-patient"
+                  type="submit"
+                >
+                  <ng-container>
+                    {{ route.snapshot.params["id"] ? "Editar" : "Cadastrar" }}
+                  </ng-container>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

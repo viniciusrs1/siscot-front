@@ -58,11 +58,11 @@ export class FormUserComponent implements OnInit, OnChanges {
   }
 
   populateForm(): void {
-    this.addUserForm.setValue({
-      nome: this.item?.nome,
-      email: this.item?.idade,
-      role: this.item?.role,
-    });
+    // this.addUserForm.setValue({
+    //   nome: this.item?.nome,
+    //   email: this.item?.idade,
+    //   role: this.item?.role,
+    // });
   }
 
   onSubmit(): void {

@@ -20,4 +20,11 @@ export const Approutes: Routes = [
         (m) => m.UsersModule
       ),
   },
+  {
+    path: 'patients',
+    loadChildren: () =>
+      import('./patients/patients.module').then(
+        (m) => m.PatientsModule
+      ),
+  },
 ];

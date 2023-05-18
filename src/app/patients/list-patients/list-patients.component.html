@@ -1,10 +1,10 @@
-<div class="users">
+<div class="patients">
   <app-sidebar></app-sidebar>
   <div class="content">
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2>Lista de Usuários</h2>
+          <h2>Lista de Pacientes</h2>
         </div>
       </div>
 
@@ -21,8 +21,8 @@
         </div>
 
         <div class="col-8 wrapper-button">
-          <button class="btn btn-lg" (click)="addUser()">
-            Adicionar Usuário
+          <button class="btn btn-lg" (click)="addPatient()">
+            Adicionar Paciente
           </button>
         </div>
       </div>
@@ -37,35 +37,42 @@
             [rowHeight]="50"
             rowHeight="auto"
             [limit]="6"
-            [messages]="{ emptyMessage: 'Nenhum usuário encontrado.' }"
+            [messages]="{ emptyMessage: 'Nenhum paciente encontrado.' }"
           >
             <ngx-datatable-column
               name="Nome"
               prop="name"
-              [flexGrow]="0.3"
+              [flexGrow]="0.22"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Gênero"
+              prop="gender"
+              [flexGrow]="0.15"
             ></ngx-datatable-column>
 
             <ngx-datatable-column
               name="Email"
               prop="email"
-              [flexGrow]="0.3"
+              [flexGrow]="0.22"
             ></ngx-datatable-column>
+
             <ngx-datatable-column
-              name="Cargo"
-              prop="role"
+              name="Telefone"
+              prop="phone"
               [flexGrow]="0.15"
             ></ngx-datatable-column>
 
             <ngx-datatable-column name="Ações" prop="" [flexGrow]="0.1">
               <ng-template ngx-datatable-cell-template let-value="value">
-                <a class="link mr-2" (click)="viewUser(value.id)">
+                <a class="link mr-2" (click)="viewPatient(value.id)">
                   <mat-icon
                     aria-hidden="false"
                     aria-label="Example home icon"
                     fontIcon="visibility"
                   ></mat-icon>
                 </a>
-                <a class="link mr-2" (click)="editUser(value.id)">
+                <a class="link mr-2" (click)="editPatient(value.id)">
                   <mat-icon
                     aria-hidden="false"
                     aria-label="Example home icon"
