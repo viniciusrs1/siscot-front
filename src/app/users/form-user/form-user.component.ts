@@ -54,15 +54,24 @@ export class FormUserComponent implements OnInit, OnChanges {
         },
         [Validators.required]
       ),
+      password: new FormControl(
+        {
+          value: null,
+          disabled: this.disabled,
+        },
+        [Validators.required]
+      ),
     });
   }
 
   populateForm(): void {
-    // this.addUserForm.setValue({
-    //   nome: this.item?.nome,
-    //   email: this.item?.idade,
-    //   role: this.item?.role,
-    // });
+    console.log('item aq', this.item);
+    this.addUserForm.setValue({
+      name: this.item?.name,
+      email: this.item?.email,
+      role: this.item?.role,
+      password: this.item?.password,
+    });
   }
 
   onSubmit(): void {
@@ -70,6 +79,7 @@ export class FormUserComponent implements OnInit, OnChanges {
     if (this.addUserForm.valid) {
       if (this.route.snapshot.params['id']) {
         data.id = this.route.snapshot.params['id'];
+
         this.editUser(data);
       } else {
         this.addUser(data);

@@ -11,12 +11,18 @@
       <div class="row">
         <div class="col-4">
           <form action="">
-            <input
-              type="text"
-              name="filter"
-              class="form-control"
-              placeholder="Buscar..."
-            />
+            <mat-form-field style="width: 100%">
+              <mat-label>Buscar</mat-label>
+
+              <input
+                type="text"
+                matInput
+                name="filter"
+                style="height: 24px"
+                [ngModel]="filter"
+                (ngModelChange)="updateFilter($event)"
+              />
+            </mat-form-field>
           </form>
         </div>
 
@@ -52,7 +58,7 @@
             ></ngx-datatable-column>
             <ngx-datatable-column
               name="Cargo"
-              prop="role"
+              prop="roleFormatted"
               [flexGrow]="0.15"
             ></ngx-datatable-column>
 

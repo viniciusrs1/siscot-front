@@ -22,6 +22,9 @@ export class UsersService {
   }
 
   updateUser(user: any): Observable<void> {
-    return this.httpClient.put<void>(`${environment.api}/usuarios`, user);
+    return this.httpClient.put<void>(
+      `${environment.api}/usuarios/${user.id}`,
+      user
+    );
   }
 }

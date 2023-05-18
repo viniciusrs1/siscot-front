@@ -9,38 +9,8 @@ import { UsersService } from '../users.service';
 })
 export class ListUsersComponent implements OnInit {
   rows: any = null;
-  // rows: any = [
-  //   {
-  //     name: 'Vinicius Rodrigues de Sousa',
-  //     email: 'viniciusrs@email.com',
-  //     role: 'ADMIN',
-  //   },
-  //   {
-  //     name: 'Caio Freitas Lima',
-  //     email: 'caiofflima@gmail.com',
-  //     role: 'ASSISTENTE SOCIAL',
-  //   },
-  //   {
-  //     name: 'Lindovaldo Costa Leao',
-  //     email: 'lindolindao@outlook.com.br',
-  //     role: 'ASSISTENTE SOCIAL',
-  //   },
-  //   {
-  //     name: 'Breno Henrique',
-  //     email: 'brenao.henrique@gmail.com',
-  //     role: 'SECRETARIO',
-  //   },
-  //   {
-  //     name: 'Guilherme Mutao',
-  //     email: 'guigasMutao@email.com',
-  //     role: 'SECRETARIO',
-  //   },
-  //   {
-  //     name: 'Guilherme Barbosa',
-  //     email: 'broxa.gui@gmail.com',
-  //     role: 'ASSISTENTE SOCIAL',
-  //   },
-  // ];
+  temp: any = [];
+  filter: string = '';
 
   constructor(private route: Router, private usersService: UsersService) {}
 
@@ -48,11 +18,33 @@ export class ListUsersComponent implements OnInit {
     this.getUsers();
   }
 
+  updateFilter(event: any): void {
+    const val = event.toLowerCase();
+
+    if (this.temp?.length > 0) {
+      const filter = this.temp.filter(
+        (item: any) => item.name.toLowerCase().indexOf(val) !== -1 || !val
+      );
+
+      this.rows = filter;
+    }
+  }
+
   getUsers(): void {
     this.usersService.getUsers().subscribe({
       next: (res: any) => {
-        console.log("resposta", res)
-        // this.rows = res?.response ? res.response : [];
+        res.map((item: any) => {
+          item.roleFormatted =
+            item.role === 'ADMIN'
+              ? 'Administrador'
+              : item.role === 'SECRETARIO'
+              ? 'Secretário'
+              : item.role === 'ASSISTENTE SOCIAL'
+              ? 'Assistente Social'
+              : '';
+        });
+        this.rows = res ? res : [];
+        this.temp = this.rows ? [...this.rows] : [];
       },
       error: (error) => {
         console.log(error);
@@ -61,12 +53,10 @@ export class ListUsersComponent implements OnInit {
   }
 
   addUser() {
-    console.log('ento');
     this.route.navigateByUrl('users/form/add');
   }
 
   viewUser(id: number): void {
-    console.log('aq', id);
     this.route.navigate(['/users/form/', 'view', id]);
   }
 

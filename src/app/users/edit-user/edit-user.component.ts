@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -10,7 +11,10 @@ export class EditUserComponent implements OnInit {
   item: any = null;
   disabledForm: boolean | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private usersService: UsersService
+  ) {}
 
   ngOnInit(): void {
     this.disabledForm =
@@ -27,15 +31,12 @@ export class EditUserComponent implements OnInit {
     const id: number = this.route.snapshot.params['id'];
 
     if (id) {
-      // this.studentsService.getStudentById(id).subscribe({
-      //   next: (res) => {
-      //     this.item = res?.response.length > 0 ? res.response[0] : null;
-      //     console.log('item', this.item);
-      //   },
-      //   error: (error) => {
-      //     console.log(error);
-      //   },
-      // });
+      this.usersService.getUserById(id).subscribe({
+        next: (res) => {
+          this.item = res ? res : null;
+        },
+        error: (error) => {},
+      });
     }
   }
 }
