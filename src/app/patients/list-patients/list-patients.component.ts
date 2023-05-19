@@ -1,52 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PatientsService } from '../patients.service';
 
 @Component({
   selector: 'app-list-patients',
   templateUrl: './list-patients.component.html',
-  styleUrls: ['./list-patients.component.scss']
+  styleUrls: ['./list-patients.component.scss'],
 })
-export class ListPatientsComponent {
-  rows: any = [
-    {
-      name: 'Vinicius Rodrigues de Sousa',
-      gender: 'Masculino',
-      email: 'viniciusrs@email.com',
-      phone: '34997965228',
-    },
-    {
-      name: 'Caio Freitas Lima',
-      gender: 'Masculino',
-      email: 'caiofflima@gmail.com',
-      phone: '34997965228',
-    },
-    {
-      name: 'Lindovaldo Costa Leao',
-      gender: 'Masculino',
-      email: 'lindolindao@outlook.com.br',
-      phone: '34997965228',
-    },
-    {
-      name: 'Breno Henrique',
-      gender: 'Feminino',
-      email: 'brenao.henrique@gmail.com',
-      phone: '34997965228',
-    },
-    {
-      name: 'Guilherme Mutao',
-      gender: 'Outro',
-      email: 'guigasMutao@email.com',
-      phone: '34997965228',
-    },
-    {
-      name: 'Guilherme Barbosa',
-      gender: 'Outro',
-      email: 'broxa.gui@gmail.com',
-      phone: '34997965228',
-    },
-  ];
+export class ListPatientsComponent implements OnInit {
+  rows: any = null;
+  temp: any = [];
+  filter: string = '';
 
-  constructor(private route: Router) {}
+  constructor(
+    private route: Router,
+    private patientsService: PatientsService
+  ) {}
+
+  ngOnInit(): void {
+    this.getPatients();
+  }
+
+  updateFilter(event: any): void {
+    const val = event.toLowerCase();
+
+    if (this.temp?.length > 0) {
+      const filter = this.temp.filter(
+        (item: any) => item.name.toLowerCase().indexOf(val) !== -1 || !val
+      );
+
+      this.rows = filter;
+    }
+  }
+
+  getPatients(): void {
+    this.patientsService.getPatients().subscribe({
+      next: (res: any) => {
+        res.map((item: any) => {
+          item.addressFormatted = `${item.address}, ${item.number}`;
+        });
+        this.rows = res ? res : [];
+        this.temp = this.rows ? [...this.rows] : [];
+        console.log('rows', this.rows);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   addPatient() {
     console.log('ento');
@@ -61,5 +62,4 @@ export class ListPatientsComponent {
   editPatient(id: number): void {
     this.route.navigate(['/patients/form/', 'edit', id]);
   }
-
 }

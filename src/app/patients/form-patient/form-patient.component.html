@@ -4,7 +4,17 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2 class="form-row">Adicionar Paciente</h2>
+          <h2 class="form-row">
+            <ng-container>
+              {{
+                route.snapshot.params["action"] === "edit"
+                  ? "Editar Paciente"
+                  : route.snapshot.params["action"] === "view"
+                  ? "Visualizar Paciente"
+                  : "Adicionar Paciente"
+              }}
+            </ng-container>
+          </h2>
         </div>
       </div>
 
@@ -48,9 +58,11 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Data de Nascimento</mat-label>
 
-                  <input type="text" matInput formControlName="date" />
+                  <input type="text" matInput formControlName="date_birth" />
                   <mat-error
-                    *ngIf="addPatientForm?.get('date')?.hasError('required')"
+                    *ngIf="
+                      addPatientForm?.get('date_birth')?.hasError('required')
+                    "
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>
@@ -78,7 +90,7 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Número</mat-label>
 
-                  <input type="text" matInput formControlName="number" />
+                  <input type="number" matInput formControlName="number" />
                   <mat-error
                     *ngIf="addPatientForm?.get('number')?.hasError('required')"
                   >
@@ -114,10 +126,36 @@
 
                   <input type="text" matInput formControlName="email" />
                   <mat-error
+                    *ngIf="
+                      addPatientForm?.get('email')?.hasError('email') &&
+                      !addPatientForm?.get('email')?.hasError('required')
+                    "
+                  >
+                    <strong>Email inválido</strong>
+                  </mat-error>
+                  <mat-error
                     *ngIf="addPatientForm?.get('email')?.hasError('required')"
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Informações</mat-label>
+                  <textarea
+                    type="text"
+                    matInput
+                    formControlName="info"
+                    style="height: 100px"
+                  ></textarea>
                 </mat-form-field>
               </div>
             </div>

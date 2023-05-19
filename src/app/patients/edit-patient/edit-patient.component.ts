@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PatientsService } from '../patients.service';
 
 @Component({
   selector: 'app-edit-patient',
   templateUrl: './edit-patient.component.html',
-  styleUrls: ['./edit-patient.component.scss']
+  styleUrls: ['./edit-patient.component.scss'],
 })
-export class EditPatientComponent implements OnInit  {
+export class EditPatientComponent implements OnInit {
   item: any = null;
   disabledForm: boolean | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private patientsService: PatientsService
+  ) {}
 
   ngOnInit(): void {
     this.disabledForm =
@@ -27,16 +31,12 @@ export class EditPatientComponent implements OnInit  {
     const id: number = this.route.snapshot.params['id'];
 
     if (id) {
-      // this.studentsService.getStudentById(id).subscribe({
-      //   next: (res) => {
-      //     this.item = res?.response.length > 0 ? res.response[0] : null;
-      //     console.log('item', this.item);
-      //   },
-      //   error: (error) => {
-      //     console.log(error);
-      //   },
-      // });
+      this.patientsService.getPatientsById(id).subscribe({
+        next: (res) => {
+          this.item = res ? res : null;
+        },
+        error: (error) => {},
+      });
     }
   }
-
 }

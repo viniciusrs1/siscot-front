@@ -41,7 +41,7 @@ export class ListUsersComponent implements OnInit {
               ? 'Secretário'
               : item.role === 'ASSISTENTE SOCIAL'
               ? 'Assistente Social'
-              : '';
+              : item.role;
         });
         this.rows = res ? res : [];
         this.temp = this.rows ? [...this.rows] : [];

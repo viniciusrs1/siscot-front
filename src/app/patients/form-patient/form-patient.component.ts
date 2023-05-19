@@ -6,9 +6,9 @@ import { PatientsService } from '../patients.service';
 @Component({
   selector: 'app-form-patient',
   templateUrl: './form-patient.component.html',
-  styleUrls: ['./form-patient.component.scss']
+  styleUrls: ['./form-patient.component.scss'],
 })
-export class FormPatientComponent implements OnInit, OnChanges{
+export class FormPatientComponent implements OnInit, OnChanges {
   @Input() item: any = null;
   @Input() disabled: any = null;
   addPatientForm: FormGroup = Object.create(null);
@@ -44,10 +44,10 @@ export class FormPatientComponent implements OnInit, OnChanges{
           value: null,
           disabled: this.disabled,
         },
-        [Validators.required,]
+        [Validators.required]
       ),
 
-      date: new FormControl(
+      date_birth: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -85,15 +85,28 @@ export class FormPatientComponent implements OnInit, OnChanges{
         },
         [Validators.required, Validators.email]
       ),
+
+      info: new FormControl(
+        {
+          value: null,
+          disabled: this.disabled,
+        },
+        []
+      ),
     });
   }
 
   populateForm(): void {
-    // this.addPatientForm.setValue({
-    //   nome: this.item?.nome,
-    //   email: this.item?.idade,
-    //   role: this.item?.role,
-    // });
+    this.addPatientForm.setValue({
+      name: this.item?.name,
+      gender: this.item?.gender,
+      date_birth: this.item?.date_birth,
+      address: this.item?.address,
+      number: this.item?.number,
+      phone: this.item?.phone,
+      email: this.item?.email,
+      info: this.item?.info,
+    });
   }
 
   onSubmit(): void {

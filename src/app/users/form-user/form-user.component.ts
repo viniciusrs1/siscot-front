@@ -65,7 +65,6 @@ export class FormUserComponent implements OnInit, OnChanges {
   }
 
   populateForm(): void {
-    console.log('item aq', this.item);
     this.addUserForm.setValue({
       name: this.item?.name,
       email: this.item?.email,

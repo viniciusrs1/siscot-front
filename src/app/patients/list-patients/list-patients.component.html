@@ -11,12 +11,18 @@
       <div class="row">
         <div class="col-4">
           <form action="">
-            <input
-              type="text"
-              name="filter"
-              class="form-control"
-              placeholder="Buscar..."
-            />
+            <mat-form-field style="width: 100%">
+              <mat-label>Buscar</mat-label>
+
+              <input
+                type="text"
+                matInput
+                name="filter"
+                style="height: 24px"
+                [ngModel]="filter"
+                (ngModelChange)="updateFilter($event)"
+              />
+            </mat-form-field>
           </form>
         </div>
 
@@ -42,25 +48,25 @@
             <ngx-datatable-column
               name="Nome"
               prop="name"
-              [flexGrow]="0.22"
+              [flexGrow]="0.2"
             ></ngx-datatable-column>
 
             <ngx-datatable-column
-              name="Gênero"
-              prop="gender"
-              [flexGrow]="0.15"
-            ></ngx-datatable-column>
-
-            <ngx-datatable-column
-              name="Email"
-              prop="email"
-              [flexGrow]="0.22"
+              name="Endereço"
+              prop="addressFormatted"
+              [flexGrow]="0.2"
             ></ngx-datatable-column>
 
             <ngx-datatable-column
               name="Telefone"
               prop="phone"
               [flexGrow]="0.15"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Email"
+              prop="email"
+              [flexGrow]="0.2"
             ></ngx-datatable-column>
 
             <ngx-datatable-column name="Ações" prop="" [flexGrow]="0.1">

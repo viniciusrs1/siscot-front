@@ -10,18 +10,21 @@ export class PatientsService {
   constructor(private httpClient: HttpClient) {}
 
   addPatient(user: any): Observable<void> {
-    return this.httpClient.post<void>(`${environment.api}/patients`, user);
+    return this.httpClient.post<void>(`${environment.api}/pacientes`, user);
   }
 
   getPatients(): Observable<void> {
-    return this.httpClient.get<void>(`${environment.api}/patients`);
+    return this.httpClient.get<void>(`${environment.api}/pacientes`);
   }
 
-  getPAtientsById(id: number): Observable<any> {
-    return this.httpClient.get<any>(`${environment.api}/patients/${id}`);
+  getPatientsById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${environment.api}/pacientes/${id}`);
   }
 
   updatePatient(user: any): Observable<void> {
-    return this.httpClient.put<void>(`${environment.api}/patients`, user);
+    return this.httpClient.put<void>(
+      `${environment.api}/pacientes/${user.id}`,
+      user
+    );
   }
 }

@@ -5,40 +5,63 @@
   />
 
   <div class="nav-items">
+    <a
+      class="link mr-2"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="home"
+      ></mat-icon>
+      <span>Início</span>
+    </a>
+
     <a class="link mr-2" routerLink="/users/list" routerLinkActive="active">
       <mat-icon
         aria-hidden="false"
         aria-label="Example home icon"
         fontIcon="person"
       ></mat-icon>
-      Usuários
+      <span>Usuários</span>
     </a>
 
-    <a class="link mr-2" routerLink="/" routerLinkActive="active">
+    <a class="link mr-2" routerLink="/patients/list" routerLinkActive="active">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="sick"
+      ></mat-icon>
+      <span>Pacientes</span>
+    </a>
+
+    <a class="link mr-2" routerLink="/aaa" routerLinkActive="active">
       <mat-icon
         aria-hidden="false"
         aria-label="Example home icon"
         fontIcon="calendar_month"
       ></mat-icon>
-      Agenda
+      <span>Agenda</span>
     </a>
 
-    <a class="link mr-2" routerLink="/" routerLinkActive="active">
+    <a class="link mr-2" routerLink="/bb" routerLinkActive="active">
       <mat-icon
         aria-hidden="false"
         aria-label="Example home icon"
         fontIcon="description"
       ></mat-icon>
-      Acompanhamentos
+      <span>Acompanhamentos</span>
     </a>
 
-    <a class="link mr-2" routerLink="/" routerLinkActive="active">
+    <a class="link mr-2 no-border" routerLink="/cc" routerLinkActive="active">
       <mat-icon
         aria-hidden="false"
         aria-label="Example home icon"
         fontIcon="work_history"
       ></mat-icon>
-      Histórico
+      <span>Histórico</span>
     </a>
   </div>
 </div>
