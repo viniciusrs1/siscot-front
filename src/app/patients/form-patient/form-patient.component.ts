@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PatientsService } from '../patients.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form-patient',
@@ -16,14 +17,14 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
   @Input() disabled: any = null;
   addPatientForm: FormGroup = Object.create(null);
   loading: boolean = false;
-
   myModel: any;
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
 
   constructor(
     private router: Router,
     public route: ActivatedRoute,
-    private patientsService: PatientsService
+    private patientsService: PatientsService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -142,11 +143,11 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          alert('cadastrado com sucesso');
+          this.openSnackBar('Paciente cadastrado com sucesso!', 'Fechar');
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          alert('erro ao cadastrar');
+          this.openSnackBar('Erro ao cadastrar paciente', 'Fechar');
           console.log(error);
           this.loading = false;
         },
@@ -159,11 +160,11 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          alert('cadastrado com sucesso');
+          this.openSnackBar('Paciente editado com sucesso!', 'Fechar');
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          alert('erro ao cadastrar');
+          this.openSnackBar('Erro ao editar paciente', 'Fechar');
           console.log(error);
           this.loading = false;
         },
@@ -172,5 +173,13 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
 
   backPage(): void {
     this.router.navigateByUrl('/patients/list');
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

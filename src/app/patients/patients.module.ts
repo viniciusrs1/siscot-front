@@ -25,6 +25,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMAT } from '../shared/utils/date-formater';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -59,6 +60,7 @@ import {
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule,
     NgxMaskModule.forChild(),
   ],
   providers: [

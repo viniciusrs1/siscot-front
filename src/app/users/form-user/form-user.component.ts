@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form-user',
@@ -20,7 +21,8 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private router: Router,
     public route: ActivatedRoute,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -104,11 +106,11 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          alert('cadastrado com sucesso');
+          this.openSnackBar('Usuário cadastrado com sucesso!', 'Fechar');
           this.router.navigate(['/users/list']);
         },
         error: (error: any) => {
-          alert('erro ao cadastrar');
+          this.openSnackBar('Erro ao cadastrar usuário', 'Fechar');
           console.log(error);
           this.loading = false;
         },
@@ -121,11 +123,11 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          alert('cadastrado com sucesso');
+          this.openSnackBar('Usuário editado com sucesso!', 'Fechar');
           this.router.navigate(['/users/list']);
         },
         error: (error: any) => {
-          alert('erro ao cadastrar');
+          this.openSnackBar('Erro ao editar usuário', 'Fechar');
           console.log(error);
           this.loading = false;
         },
@@ -134,5 +136,13 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
 
   backPage(): void {
     this.router.navigateByUrl('/users/list');
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

@@ -21,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     MatProgressSpinnerModule,
     HttpClientModule,
     MatSelectModule,
+    MatSnackBarModule,
   ],
 })
 export class UsersModule {}
