@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnChanges, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientsService } from '../patients.service';
@@ -12,6 +12,9 @@ export class FormPatientComponent implements OnInit, OnChanges {
   @Input() item: any = null;
   @Input() disabled: any = null;
   addPatientForm: FormGroup = Object.create(null);
+
+  myModel: any;
+  datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
 
   constructor(
     private router: Router,
