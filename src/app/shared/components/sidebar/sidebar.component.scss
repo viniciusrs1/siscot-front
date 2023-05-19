@@ -26,10 +26,6 @@
       box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
     }
 
-    &:focus {
-      box-shadow: none !important;
-    }
-
     span {
       margin-left: 12px;
     }
@@ -40,5 +36,9 @@
     text-decoration: none;
     color: #ffffff;
     cursor: auto;
+
+    &:hover {
+      box-shadow: none !important;
+    }
   }
 }
