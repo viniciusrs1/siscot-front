@@ -42,7 +42,8 @@
             [footerHeight]="50"
             [rowHeight]="50"
             rowHeight="auto"
-            [limit]="6"
+            [limit]="maxRows"
+            [loadingIndicator]="!rows || loading"
             [messages]="{ emptyMessage: 'Nenhum paciente encontrado.' }"
           >
             <ngx-datatable-column
@@ -59,7 +60,7 @@
 
             <ngx-datatable-column
               name="Telefone"
-              prop="phone"
+              prop="phoneFormatted"
               [flexGrow]="0.15"
             ></ngx-datatable-column>
 

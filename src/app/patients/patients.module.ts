@@ -22,25 +22,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MY_DATE_FORMAT } from '../shared/utils/date-formater';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
-const MY_DATE_FORMAT = {
-  parse: {
-    dateInput: 'DD/MM/YYYY', // this is how your date will be parsed from Input
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY', // this is how your date will get displayed on the Input
-    monthYearLabel: 'MMMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @NgModule({
   declarations: [
@@ -70,6 +59,7 @@ const MY_DATE_FORMAT = {
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxMaskModule.forChild(),
   ],
   providers: [
     {

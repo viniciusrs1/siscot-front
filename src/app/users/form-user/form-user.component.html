@@ -110,9 +110,15 @@
                   class="btn btn-lg btn-success text-white save-user"
                   type="submit"
                 >
-                  <ng-container>
+                  <ng-container *ngIf="!loading">
                     {{ route.snapshot.params["id"] ? "Editar" : "Cadastrar" }}
                   </ng-container>
+
+                  <div
+                    *ngIf="loading"
+                    class="spinner-border"
+                    role="status"
+                  ></div>
                 </button>
               </div>
             </div>

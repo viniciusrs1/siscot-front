@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { PatientsService } from '../patients.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-patients',
   templateUrl: './list-patients.component.html',
   styleUrls: ['./list-patients.component.scss'],
 })
-export class ListPatientsComponent implements OnInit {
+export class ListPatientsComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   rows: any = null;
   temp: any = [];
   filter: string = '';
+  maxRows: number = 10;
+  loading: boolean = false;
 
   constructor(
     private route: Router,
@@ -19,6 +24,11 @@ export class ListPatientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPatients();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   updateFilter(event: any): void {
@@ -34,19 +44,25 @@ export class ListPatientsComponent implements OnInit {
   }
 
   getPatients(): void {
-    this.patientsService.getPatients().subscribe({
-      next: (res: any) => {
-        res.map((item: any) => {
-          item.addressFormatted = `${item.address}, ${item.number}`;
-        });
-        this.rows = res ? res : [];
-        this.temp = this.rows ? [...this.rows] : [];
-        console.log('rows', this.rows);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.patientsService
+      .getPatients()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          res.map((item: any) => {
+            item.addressFormatted = `${item.address}, ${item.number}`;
+            item.phoneFormatted = this.formatPhone(item.phone);
+          });
+
+          this.rows = res ? res : [];
+          this.temp = this.rows ? [...this.rows] : [];
+          this.loading = false;
+        },
+        error: (error) => {
+          console.log(error);
+          this.loading = false;
+        },
+      });
   }
 
   addPatient() {
@@ -61,5 +77,21 @@ export class ListPatientsComponent implements OnInit {
 
   editPatient(id: number): void {
     this.route.navigate(['/patients/form/', 'edit', id]);
+  }
+
+  formatPhone(phone: string) {
+    const ddd = phone.slice(0, 2);
+    let parte1: string;
+    let parte2: string;
+
+    if (phone.length === 11) {
+      parte1 = phone.slice(2, 3) + ' ' + phone.slice(3, 7);
+      parte2 = phone.slice(7);
+    } else {
+      parte1 = phone.slice(2, 6);
+      parte2 = phone.slice(6);
+    }
+
+    return `(${ddd}) ${parte1}-${parte2}`;
   }
 }

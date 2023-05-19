@@ -42,7 +42,8 @@
             [footerHeight]="50"
             [rowHeight]="50"
             rowHeight="auto"
-            [limit]="6"
+            [limit]="maxRows"
+            [loadingIndicator]="!rows || loading"
             [messages]="{ emptyMessage: 'Nenhum usuário encontrado.' }"
           >
             <ngx-datatable-column

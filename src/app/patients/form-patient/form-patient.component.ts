@@ -1,17 +1,21 @@
-import { Component, Inject, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientsService } from '../patients.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-patient',
   templateUrl: './form-patient.component.html',
   styleUrls: ['./form-patient.component.scss'],
 })
-export class FormPatientComponent implements OnInit, OnChanges {
+export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() item: any = null;
   @Input() disabled: any = null;
   addPatientForm: FormGroup = Object.create(null);
+  loading: boolean = false;
 
   myModel: any;
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
@@ -24,6 +28,11 @@ export class FormPatientComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.createForm();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   ngOnChanges(): void {
@@ -115,6 +124,7 @@ export class FormPatientComponent implements OnInit, OnChanges {
   onSubmit(): void {
     const data: any = { ...this.addPatientForm.value };
     if (this.addPatientForm.valid) {
+      this.loading = true;
       if (this.route.snapshot.params['id']) {
         data.id = this.route.snapshot.params['id'];
         this.editPatient(data);
@@ -127,29 +137,37 @@ export class FormPatientComponent implements OnInit, OnChanges {
   }
 
   addPatient(data: any): void {
-    this.patientsService.addPatient(data).subscribe({
-      next: () => {
-        alert('cadastrado com sucesso');
-        this.router.navigate(['/patients/list']);
-      },
-      error: (error: any) => {
-        alert('erro ao cadastrar');
-        console.log(error);
-      },
-    });
+    this.patientsService
+      .addPatient(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          alert('cadastrado com sucesso');
+          this.router.navigate(['/patients/list']);
+        },
+        error: (error: any) => {
+          alert('erro ao cadastrar');
+          console.log(error);
+          this.loading = false;
+        },
+      });
   }
 
   editPatient(data: any): void {
-    this.patientsService.updatePatient(data).subscribe({
-      next: () => {
-        alert('cadastrado com sucesso');
-        this.router.navigate(['/patients/list']);
-      },
-      error: (error: any) => {
-        alert('erro ao cadastrar');
-        console.log(error);
-      },
-    });
+    this.patientsService
+      .updatePatient(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          alert('cadastrado com sucesso');
+          this.router.navigate(['/patients/list']);
+        },
+        error: (error: any) => {
+          alert('erro ao cadastrar');
+          console.log(error);
+          this.loading = false;
+        },
+      });
   }
 
   backPage(): void {

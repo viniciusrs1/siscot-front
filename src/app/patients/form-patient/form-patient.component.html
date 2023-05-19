@@ -21,7 +21,7 @@
       <div class="row">
         <form [formGroup]="addPatientForm" (ngSubmit)="onSubmit()">
           <div class="row form-row">
-            <div class="col-md-8">
+            <div class="col-md-9">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
                   <mat-label>Nome</mat-label>
@@ -36,7 +36,7 @@
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
                   <mat-label>Gênero</mat-label>
@@ -55,19 +55,6 @@
           <div class="row form-row">
             <div class="col-md-3">
               <div class="form-group">
-                <!-- <mat-form-field style="width: 100%">
-                  <mat-label>Data de Nascimento</mat-label>
-
-                  <input type="date" matInput formControlName="date_birth" />
-                  <mat-error
-                    *ngIf="
-                      addPatientForm?.get('date_birth')?.hasError('required')
-                    "
-                  >
-                    <strong>Obrigatório</strong>
-                  </mat-error>
-                </mat-form-field> -->
-
                 <mat-form-field style="width: 100%">
                   <mat-label>Data de Nascimento</mat-label>
 
@@ -76,7 +63,6 @@
                     [matDatepicker]="picker"
                     formControlName="date_birth"
                   />
-                  <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle
                     matIconSuffix
                     [for]="picker"
@@ -126,10 +112,9 @@
                   <mat-label>Telefone</mat-label>
 
                   <input
-                    type="text"
                     matInput
+                    mask="(00) 0 0000-0000||(00) 0000-0000"
                     formControlName="phone"
-                    mask="(000) 000-0000"
                   />
                   <mat-error
                     *ngIf="addPatientForm?.get('phone')?.hasError('required')"
@@ -198,9 +183,15 @@
                   class="btn btn-lg btn-success text-white save-patient"
                   type="submit"
                 >
-                  <ng-container>
+                  <ng-container *ngIf="!loading">
                     {{ route.snapshot.params["id"] ? "Editar" : "Cadastrar" }}
                   </ng-container>
+
+                  <div
+                    *ngIf="loading"
+                    class="spinner-border"
+                    role="status"
+                  ></div>
                 </button>
               </div>
             </div>
