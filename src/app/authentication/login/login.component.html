@@ -1,13 +1,13 @@
 <div class="container-fluid g-0">
   <div class="row g-0">
-    <div class="col-9">
+    <div class="col-9 wrapper-logo">
       <div class="logo">
         <img src="../../../assets/images/logo_transparent.png" alt="Siscot" />
       </div>
     </div>
     <div class="col-3">
       <div class="form">
-        <p>Entrar</p>
+        <p>Acesse sua conta</p>
         <form action="" [formGroup]="loginForm">
           <div>
             <mat-form-field class="login-input">
@@ -35,7 +35,7 @@
 
           <div class="form-button">
             <button class="login-button">
-              <ng-container *ngIf="!loading">Login</ng-container>
+              <ng-container *ngIf="!loading">Entrar</ng-container>
               <div *ngIf="loading" class="spinner-border" role="status">
                 <span class="sr-only"></span>
               </div>

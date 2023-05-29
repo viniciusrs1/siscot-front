@@ -1,9 +1,13 @@
-.logo {
-  display: flex;
-  justify-content: center;
+.wrapper-logo {
+  box-shadow: 8px 0px 14px 2px rgba(0, 0, 0, 0.1);
 
-  img {
-    height: 100vh;
+  .logo {
+    display: flex;
+    justify-content: center;
+
+    img {
+      height: 100vh;
+    }
   }
 }
 
