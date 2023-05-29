@@ -1,22 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PatientsService } from '../patients.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
+import { PatientsService } from 'src/app/patients/patients.service';
+import { AccompanimentsService } from '../accompaniments.service';
 
 @Component({
-  selector: 'app-edit-patient',
-  templateUrl: './edit-patient.component.html',
-  styleUrls: ['./edit-patient.component.scss'],
+  selector: 'app-edit-accompaniment',
+  templateUrl: './edit-accompaniment.component.html',
+  styleUrls: ['./edit-accompaniment.component.scss'],
 })
-export class EditPatientComponent implements OnInit, OnDestroy {
+export class EditAccompanimentComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   item: any = null;
   disabledForm: boolean | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private patientsService: PatientsService
+    private accompanimentsService: AccompanimentsService
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +27,7 @@ export class EditPatientComponent implements OnInit, OnDestroy {
         ? true
         : null;
 
-    this.getPatientByID();
+    this.getAccompanimentByID();
   }
 
   ngOnDestroy() {
@@ -35,12 +35,12 @@ export class EditPatientComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  getPatientByID(): void {
+  getAccompanimentByID(): void {
     const id: number = this.route.snapshot.params['id'];
 
     if (id) {
-      this.patientsService
-        .getPatientsById(id)
+      this.accompanimentsService
+        .getAccompanimentById(id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (res) => {

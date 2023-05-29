@@ -1,0 +1,203 @@
+<div class="accompaniments">
+  <app-sidebar></app-sidebar>
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="form-row">
+            <ng-container>
+              {{
+                route.snapshot.params["action"] === "edit"
+                  ? "Editar Acompanhamento"
+                  : route.snapshot.params["action"] === "view"
+                  ? "Visualizar Acompanhamento"
+                  : "Adicionar Acompanhamento"
+              }}
+            </ng-container>
+          </h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <form [formGroup]="addAccompanimentForm" (ngSubmit)="onSubmit()">
+          <!-- <div class="row form-row">
+            <div class="col-md-9">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Nome</mat-label>
+
+                  <input type="text" matInput formControlName="name" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('name')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Gênero</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="MASCULINO">Masculino</mat-option>
+                    <mat-option value="FEMININO">Feminino</mat-option>
+                    <mat-option value="OUTRO">Outro</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Data de Nascimento</mat-label>
+
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="date_birth"
+                  />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-7">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Endereço</mat-label>
+
+                  <input type="text" matInput formControlName="address" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('address')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Número</mat-label>
+
+                  <input type="number" matInput formControlName="number" />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('number')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Telefone</mat-label>
+
+                  <input
+                    matInput
+                    mask="(00) 0 0000-0000||(00) 0000-0000"
+                    formControlName="phone"
+                  />
+                  <mat-error
+                    *ngIf="addPatientForm?.get('phone')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Email</mat-label>
+
+                  <input type="text" matInput formControlName="email" />
+                  <mat-error
+                    *ngIf="
+                      addPatientForm?.get('email')?.hasError('email') &&
+                      !addPatientForm?.get('email')?.hasError('required')
+                    "
+                  >
+                    <strong>Email inválido</strong>
+                  </mat-error>
+                  <mat-error
+                    *ngIf="addPatientForm?.get('email')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Informações</mat-label>
+                  <textarea
+                    type="text"
+                    matInput
+                    formControlName="info"
+                    style="height: 100px"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group form-row">
+            <div class="row">
+              <div class="col-md-6">
+                <button
+                  class="btn btn-lg btn-warning text-white back-button"
+                  (click)="backPage()"
+                >
+                  Voltar
+                </button>
+              </div>
+              <div class="col-md-6 wrapper-save-accompaniment">
+                <button
+                  *ngIf="!disabled"
+                  class="btn btn-lg btn-success text-white save-accompaniment"
+                  type="submit"
+                >
+                  <ng-container *ngIf="!loading">
+                    {{ route.snapshot.params["id"] ? "Editar" : "Cadastrar" }}
+                  </ng-container>
+
+                  <div
+                    *ngIf="loading"
+                    class="spinner-border"
+                    role="status"
+                  ></div>
+                </button>
+              </div>
+            </div>
+          </div> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
