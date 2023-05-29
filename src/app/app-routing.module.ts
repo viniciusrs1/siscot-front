@@ -16,15 +16,18 @@ export const Approutes: Routes = [
   {
     path: 'users',
     loadChildren: () =>
-      import('./users/users.module').then(
-        (m) => m.UsersModule
-      ),
+      import('./users/users.module').then((m) => m.UsersModule),
   },
   {
     path: 'patients',
     loadChildren: () =>
-      import('./patients/patients.module').then(
-        (m) => m.PatientsModule
+      import('./patients/patients.module').then((m) => m.PatientsModule),
+  },
+  {
+    path: 'accompaniments',
+    loadChildren: () =>
+      import('./accompaniments/accompaniments.module').then(
+        (m) => m.AccompanimentsModule
       ),
   },
 ];

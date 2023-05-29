@@ -41,7 +41,6 @@ import {
   ],
   imports: [
     CommonModule,
-    SharedModule,
     RouterModule.forChild(PatientsRoutes),
     NgxDatatableModule,
     MatIconModule,

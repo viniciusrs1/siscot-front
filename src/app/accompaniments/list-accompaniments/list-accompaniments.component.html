@@ -46,29 +46,23 @@
             [loadingIndicator]="!rows || loading"
             [messages]="{ emptyMessage: 'Nenhum acompanhamento encontrado.' }"
           >
-            <!-- <ngx-datatable-column
-                name="Nome"
-                prop="name"
-                [flexGrow]="0.2"
-              ></ngx-datatable-column>
-  
-              <ngx-datatable-column
-                name="Endereço"
-                prop="addressFormatted"
-                [flexGrow]="0.2"
-              ></ngx-datatable-column>
-  
-              <ngx-datatable-column
-                name="Telefone"
-                prop="phoneFormatted"
-                [flexGrow]="0.15"
-              ></ngx-datatable-column>
-  
-              <ngx-datatable-column
-                name="Email"
-                prop="email"
-                [flexGrow]="0.2"
-              ></ngx-datatable-column> -->
+            <ngx-datatable-column
+              name="Paciente"
+              prop="patient"
+              [flexGrow]="0.25"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Profissional"
+              prop="professional"
+              [flexGrow]="0.25"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Data"
+              prop="date"
+              [flexGrow]="0.2"
+            ></ngx-datatable-column>
 
             <ngx-datatable-column name="Ações" prop="" [flexGrow]="0.1">
               <ng-template ngx-datatable-cell-template let-value="value">

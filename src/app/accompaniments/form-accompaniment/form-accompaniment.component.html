@@ -20,30 +20,17 @@
 
       <div class="row">
         <form [formGroup]="addAccompanimentForm" (ngSubmit)="onSubmit()">
-          <!-- <div class="row form-row">
-            <div class="col-md-9">
+          <div class="row form-row">
+            <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
-                  <mat-label>Nome</mat-label>
-
-                  <input type="text" matInput formControlName="name" />
-                  <mat-error
-                    *ngIf="addPatientForm?.get('name')?.hasError('required')"
-                  >
-                    <strong>Obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="form-group">
-                <mat-form-field style="width: 100%">
-                  <mat-label>Gênero</mat-label>
-                  <mat-select formControlName="gender">
-                    <mat-option value="MASCULINO">Masculino</mat-option>
-                    <mat-option value="FEMININO">Feminino</mat-option>
-                    <mat-option value="OUTRO">Outro</mat-option>
+                  <mat-label>Paciente</mat-label>
+                  <mat-select formControlName="patient_id">
+                    <mat-option value="1"
+                      >Vinicius Rodrigues de Sousa</mat-option
+                    >
+                    <mat-option value="2">Caio Freitas Lima</mat-option>
+                    <mat-option value="3">Ronildo Cesar</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -53,97 +40,33 @@
           <hr />
 
           <div class="row form-row">
+            <div class="col-md-9">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Profissional</mat-label>
+                  <mat-select formControlName="professional_id">
+                    <mat-option value="1">Mauro Borges</mat-option>
+                    <mat-option value="2">Lindovaldo Costa Leao</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
             <div class="col-md-3">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
-                  <mat-label>Data de Nascimento</mat-label>
+                  <mat-label>Data</mat-label>
 
                   <input
                     matInput
                     [matDatepicker]="picker"
-                    formControlName="date_birth"
+                    formControlName="date"
                   />
                   <mat-datepicker-toggle
                     matIconSuffix
                     [for]="picker"
                   ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="col-md-7">
-              <div class="form-group">
-                <mat-form-field style="width: 100%">
-                  <mat-label>Endereço</mat-label>
-
-                  <input type="text" matInput formControlName="address" />
-                  <mat-error
-                    *ngIf="addPatientForm?.get('address')?.hasError('required')"
-                  >
-                    <strong>Obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="col-md-2">
-              <div class="form-group">
-                <mat-form-field style="width: 100%">
-                  <mat-label>Número</mat-label>
-
-                  <input type="number" matInput formControlName="number" />
-                  <mat-error
-                    *ngIf="addPatientForm?.get('number')?.hasError('required')"
-                  >
-                    <strong>Obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-
-          <hr />
-
-          <div class="row form-row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <mat-form-field style="width: 100%">
-                  <mat-label>Telefone</mat-label>
-
-                  <input
-                    matInput
-                    mask="(00) 0 0000-0000||(00) 0000-0000"
-                    formControlName="phone"
-                  />
-                  <mat-error
-                    *ngIf="addPatientForm?.get('phone')?.hasError('required')"
-                  >
-                    <strong>Obrigatório</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="col-md-8">
-              <div class="form-group">
-                <mat-form-field style="width: 100%">
-                  <mat-label>Email</mat-label>
-
-                  <input type="text" matInput formControlName="email" />
-                  <mat-error
-                    *ngIf="
-                      addPatientForm?.get('email')?.hasError('email') &&
-                      !addPatientForm?.get('email')?.hasError('required')
-                    "
-                  >
-                    <strong>Email inválido</strong>
-                  </mat-error>
-                  <mat-error
-                    *ngIf="addPatientForm?.get('email')?.hasError('required')"
-                  >
-                    <strong>Obrigatório</strong>
-                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -155,11 +78,11 @@
             <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
-                  <mat-label>Informações</mat-label>
+                  <mat-label>Anotações</mat-label>
                   <textarea
                     type="text"
                     matInput
-                    formControlName="info"
+                    formControlName="notes"
                     style="height: 100px"
                   ></textarea>
                 </mat-form-field>
@@ -195,7 +118,7 @@
                 </button>
               </div>
             </div>
-          </div> -->
+          </div>
         </form>
       </div>
     </div>

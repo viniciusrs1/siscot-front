@@ -45,7 +45,7 @@ export class FormAccompanimentComponent
 
   createForm(): void {
     this.addAccompanimentForm = new FormGroup({
-      name: new FormControl(
+      patient_id: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -53,7 +53,7 @@ export class FormAccompanimentComponent
         [Validators.required]
       ),
 
-      gender: new FormControl(
+      professional_id: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -61,14 +61,7 @@ export class FormAccompanimentComponent
         [Validators.required]
       ),
 
-      date_birth: new FormControl(
-        {
-          value: null,
-          disabled: this.disabled,
-        },
-        [Validators.required]
-      ),
-      address: new FormControl(
+      date: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -76,31 +69,7 @@ export class FormAccompanimentComponent
         [Validators.required]
       ),
 
-      number: new FormControl(
-        {
-          value: null,
-          disabled: this.disabled,
-        },
-        [Validators.required]
-      ),
-
-      phone: new FormControl(
-        {
-          value: null,
-          disabled: this.disabled,
-        },
-        [Validators.required]
-      ),
-
-      email: new FormControl(
-        {
-          value: null,
-          disabled: this.disabled,
-        },
-        [Validators.required, Validators.email]
-      ),
-
-      info: new FormControl(
+      notes: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -112,14 +81,10 @@ export class FormAccompanimentComponent
 
   populateForm(): void {
     this.addAccompanimentForm.setValue({
-      name: this.item?.name,
-      gender: this.item?.gender,
-      date_birth: this.item?.date_birth,
-      address: this.item?.address,
-      number: this.item?.number,
-      phone: this.item?.phone,
-      email: this.item?.email,
-      info: this.item?.info,
+      patient_id: this.item?.patient_id,
+      professional_id: this.item?.professional_id,
+      date: this.item?.date,
+      notes: this.item?.notes,
     });
   }
 
