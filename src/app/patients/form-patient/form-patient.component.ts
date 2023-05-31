@@ -143,11 +143,19 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.openSnackBar('Paciente cadastrado com sucesso!', 'Fechar');
+          this.openSnackBar(
+            'Paciente cadastrado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao cadastrar paciente.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao cadastrar paciente.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -159,11 +167,19 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.openSnackBar('Paciente editado com sucesso!', 'Fechar');
+          this.openSnackBar(
+            'Paciente editado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao editar paciente.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao editar paciente.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -173,11 +189,12 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
     this.router.navigateByUrl('/patients/list');
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, panelClass: string) {
     this._snackBar.open(message, action, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 3000,
+      panelClass: [panelClass],
     });
   }
 }

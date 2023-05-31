@@ -51,18 +51,20 @@ export class EditUserComponent implements OnInit, OnDestroy {
           error: (error) => {
             this.openSnackBar(
               'Erro ao carregar os dados do usuário.',
-              'Fechar'
+              'Fechar',
+              'error-message'
             );
           },
         });
     }
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, panelClass: string) {
     this._snackBar.open(message, action, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 3000,
+      panelClass: [panelClass],
     });
   }
 }

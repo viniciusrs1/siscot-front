@@ -106,11 +106,19 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.openSnackBar('Usuário cadastrado com sucesso!', 'Fechar');
+          this.openSnackBar(
+            'Usuário cadastrado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
           this.router.navigate(['/users/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao cadastrar usuário.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao cadastrar usuário.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -122,11 +130,19 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.openSnackBar('Usuário editado com sucesso!', 'Fechar');
+          this.openSnackBar(
+            'Usuário editado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
           this.router.navigate(['/users/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao editar usuário.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao editar usuário.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -136,11 +152,12 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
     this.router.navigateByUrl('/users/list');
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, panelClass: string) {
     this._snackBar.open(message, action, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 3000,
+      panelClass: [panelClass],
     });
   }
 }

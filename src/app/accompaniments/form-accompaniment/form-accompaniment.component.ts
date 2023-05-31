@@ -109,11 +109,19 @@ export class FormAccompanimentComponent
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.openSnackBar('Acompanhamento cadastrado com sucesso!', 'Fechar');
+          this.openSnackBar(
+            'Acompanhamento cadastrado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
           this.router.navigate(['/accompaniments/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao cadastrar acompanhamento.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao cadastrar acompanhamento.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -125,11 +133,19 @@ export class FormAccompanimentComponent
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.openSnackBar('Acompanhamento editado com sucesso!', 'Fechar');
+          this.openSnackBar(
+            'Acompanhamento editado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao editar acompanhamento.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao editar acompanhamento.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -139,11 +155,12 @@ export class FormAccompanimentComponent
     this.router.navigateByUrl('/accompaniments/list');
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, panelClass: string) {
     this._snackBar.open(message, action, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 3000,
+      panelClass: [panelClass],
     });
   }
 }

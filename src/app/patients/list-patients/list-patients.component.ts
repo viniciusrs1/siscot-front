@@ -61,7 +61,11 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (error) => {
-          this.openSnackBar('Erro ao carregar a lista de pacientes.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao carregar a lista de pacientes.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -95,11 +99,12 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
     return `(${ddd}) ${parte1}-${parte2}`;
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, panelClass: string) {
     this._snackBar.open(message, action, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 3000,
+      panelClass: [panelClass],
     });
   }
 }

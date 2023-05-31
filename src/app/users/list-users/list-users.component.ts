@@ -66,7 +66,11 @@ export class ListUsersComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (error) => {
-          this.openSnackBar('Erro ao carregar a lista de usuários.', 'Fechar');
+          this.openSnackBar(
+            'Erro ao carregar a lista de usuários.',
+            'Fechar',
+            'error-message'
+          );
           this.loading = false;
         },
       });
@@ -84,11 +88,12 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.route.navigate(['/users/form/', 'edit', id]);
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, panelClass: string) {
     this._snackBar.open(message, action, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
       duration: 3000,
+      panelClass: [panelClass],
     });
   }
 }
