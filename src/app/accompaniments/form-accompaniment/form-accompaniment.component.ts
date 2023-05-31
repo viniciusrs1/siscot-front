@@ -113,8 +113,7 @@ export class FormAccompanimentComponent
           this.router.navigate(['/accompaniments/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao cadastrar acompanhamento', 'Fechar');
-          console.log(error);
+          this.openSnackBar('Erro ao cadastrar acompanhamento.', 'Fechar');
           this.loading = false;
         },
       });
@@ -130,8 +129,7 @@ export class FormAccompanimentComponent
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao editar acompanhamento', 'Fechar');
-          console.log(error);
+          this.openSnackBar('Erro ao editar acompanhamento.', 'Fechar');
           this.loading = false;
         },
       });

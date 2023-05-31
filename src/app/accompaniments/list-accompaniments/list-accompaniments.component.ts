@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AccompanimentsService } from '../accompaniments.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-accompaniments',
@@ -18,7 +19,8 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: Router,
-    private accompanimentsService: AccompanimentsService
+    private accompanimentsService: AccompanimentsService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -53,23 +55,32 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (error) => {
-          console.log(error);
+          this.openSnackBar(
+            'Erro ao carregar a lista de acompanhamentos.',
+            'Fechar'
+          );
           this.loading = false;
         },
       });
   }
 
   addAccompaniment() {
-    console.log('ento');
     this.route.navigateByUrl('accompaniments/form/add');
   }
 
   viewAccompaniment(id: number): void {
-    console.log('aq', id);
     this.route.navigate(['/accompaniments/form/', 'view', id]);
   }
 
   editAccompaniment(id: number): void {
     this.route.navigate(['/accompaniments/form/', 'edit', id]);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

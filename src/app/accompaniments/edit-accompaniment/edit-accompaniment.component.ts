@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { PatientsService } from 'src/app/patients/patients.service';
 import { AccompanimentsService } from '../accompaniments.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-accompaniment',
@@ -16,7 +17,8 @@ export class EditAccompanimentComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private accompanimentsService: AccompanimentsService
+    private accompanimentsService: AccompanimentsService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +48,21 @@ export class EditAccompanimentComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.item = res ? res : null;
           },
-          error: (error) => {},
+          error: (error) => {
+            this.openSnackBar(
+              'Erro ao carregar os dados do acompanhamento.',
+              'Fechar'
+            );
+          },
         });
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

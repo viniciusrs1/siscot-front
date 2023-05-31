@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PatientsService } from '../patients.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-patients',
@@ -19,7 +20,8 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: Router,
-    private patientsService: PatientsService
+    private patientsService: PatientsService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -59,19 +61,17 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (error) => {
-          console.log(error);
+          this.openSnackBar('Erro ao carregar a lista de pacientes.', 'Fechar');
           this.loading = false;
         },
       });
   }
 
   addPatient() {
-    console.log('ento');
     this.route.navigateByUrl('patients/form/add');
   }
 
   viewPatient(id: number): void {
-    console.log('aq', id);
     this.route.navigate(['/patients/form/', 'view', id]);
   }
 
@@ -93,5 +93,13 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
     }
 
     return `(${ddd}) ${parte1}-${parte2}`;
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

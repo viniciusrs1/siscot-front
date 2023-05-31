@@ -147,8 +147,7 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao cadastrar paciente', 'Fechar');
-          console.log(error);
+          this.openSnackBar('Erro ao cadastrar paciente.', 'Fechar');
           this.loading = false;
         },
       });
@@ -164,8 +163,7 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
           this.router.navigate(['/patients/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao editar paciente', 'Fechar');
-          console.log(error);
+          this.openSnackBar('Erro ao editar paciente.', 'Fechar');
           this.loading = false;
         },
       });

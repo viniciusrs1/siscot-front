@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UsersService } from '../users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-users',
@@ -17,7 +18,11 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   maxRows: number = 10;
   loading: boolean = false;
 
-  constructor(private route: Router, private usersService: UsersService) {}
+  constructor(
+    private route: Router,
+    private usersService: UsersService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.getUsers();
@@ -61,7 +66,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (error) => {
-          console.log(error);
+          this.openSnackBar('Erro ao carregar a lista de usuários.', 'Fechar');
           this.loading = false;
         },
       });
@@ -77,5 +82,13 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   editUser(id: number): void {
     this.route.navigate(['/users/form/', 'edit', id]);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

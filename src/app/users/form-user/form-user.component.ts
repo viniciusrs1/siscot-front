@@ -110,8 +110,7 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
           this.router.navigate(['/users/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao cadastrar usuário', 'Fechar');
-          console.log(error);
+          this.openSnackBar('Erro ao cadastrar usuário.', 'Fechar');
           this.loading = false;
         },
       });
@@ -127,8 +126,7 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
           this.router.navigate(['/users/list']);
         },
         error: (error: any) => {
-          this.openSnackBar('Erro ao editar usuário', 'Fechar');
-          console.log(error);
+          this.openSnackBar('Erro ao editar usuário.', 'Fechar');
           this.loading = false;
         },
       });

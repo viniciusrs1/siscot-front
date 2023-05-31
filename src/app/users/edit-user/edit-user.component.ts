@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-user',
@@ -16,7 +17,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +48,21 @@ export class EditUserComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.item = res ? res : null;
           },
-          error: (error) => {},
+          error: (error) => {
+            this.openSnackBar(
+              'Erro ao carregar os dados do usuário.',
+              'Fechar'
+            );
+          },
         });
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }
