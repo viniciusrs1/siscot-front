@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AccompanimentsService } from '../accompaniments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-list-accompaniments',
@@ -50,9 +51,17 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: any) => {
+          res.map(
+            (item: any) =>
+              (item.dateFormatted = moment(item.data)
+                .utc()
+                .format('DD/MM/yyyy'))
+          );
+
           this.rows = res ? res : [];
           this.temp = this.rows ? [...this.rows] : [];
           this.loading = false;
+          console.log(this.rows);
         },
         error: (error) => {
           this.openSnackBar(

@@ -30,4 +30,12 @@ export class AccompanimentsService {
       accompaniment
     );
   }
+
+  getPatients(): Observable<void> {
+    return this.httpClient.get<void>(`${environment.api}/pacientes`);
+  }
+
+  getUsers(): Observable<void> {
+    return this.httpClient.get<void>(`${environment.api}/usuarios`);
+  }
 }

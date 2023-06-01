@@ -1,7 +1,7 @@
 <div class="accompaniments">
   <app-sidebar></app-sidebar>
   <div class="content">
-    <div class="container">
+    <div class="container" *ngIf="!loadingData">
       <div class="row">
         <div class="col-12">
           <h2 class="form-row">
@@ -25,12 +25,15 @@
               <div class="form-group">
                 <mat-form-field style="width: 100%">
                   <mat-label>Paciente</mat-label>
-                  <mat-select formControlName="patient_id">
-                    <mat-option value="1"
-                      >Vinicius Rodrigues de Sousa</mat-option
+                  <mat-select formControlName="pacienteId">
+                    <mat-option disabled *ngIf="patients.length === 0" value=""
+                      >Nenhum paciente cadastrado</mat-option
                     >
-                    <mat-option value="2">Caio Freitas Lima</mat-option>
-                    <mat-option value="3">Ronildo Cesar</mat-option>
+                    <mat-option
+                      *ngFor="let item of patients"
+                      [value]="item.id"
+                      >{{ item.name }}</mat-option
+                    >
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -44,9 +47,18 @@
               <div class="form-group">
                 <mat-form-field style="width: 100%">
                   <mat-label>Profissional</mat-label>
-                  <mat-select formControlName="professional_id">
-                    <mat-option value="1">Mauro Borges</mat-option>
-                    <mat-option value="2">Lindovaldo Costa Leao</mat-option>
+                  <mat-select formControlName="profissionalId">
+                    <mat-option
+                      disabled
+                      *ngIf="professionals.length === 0"
+                      value=""
+                      >Nenhum profissional cadastrado</mat-option
+                    >
+                    <mat-option
+                      *ngFor="let item of professionals"
+                      [value]="item.id"
+                      >{{ item.name }}</mat-option
+                    >
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -60,7 +72,7 @@
                   <input
                     matInput
                     [matDatepicker]="picker"
-                    formControlName="date"
+                    formControlName="data"
                   />
                   <mat-datepicker-toggle
                     matIconSuffix
@@ -82,7 +94,7 @@
                   <textarea
                     type="text"
                     matInput
-                    formControlName="notes"
+                    formControlName="anotacoes"
                     style="height: 100px"
                   ></textarea>
                 </mat-form-field>
@@ -120,6 +132,12 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+
+    <div class="wrapper-loading">
+      <div *ngIf="loadingData" class="lod">
+        <mat-spinner></mat-spinner>
       </div>
     </div>
   </div>
