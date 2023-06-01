@@ -26,7 +26,7 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Paciente</mat-label>
                   <mat-select formControlName="pacienteId">
-                    <mat-option disabled *ngIf="patients.length === 0" value=""
+                    <mat-option disabled *ngIf="patients?.length === 0" value=""
                       >Nenhum paciente cadastrado</mat-option
                     >
                     <mat-option
@@ -50,7 +50,7 @@
                   <mat-select formControlName="profissionalId">
                     <mat-option
                       disabled
-                      *ngIf="professionals.length === 0"
+                      *ngIf="professionals?.length === 0"
                       value=""
                       >Nenhum profissional cadastrado</mat-option
                     >
@@ -137,7 +137,7 @@
 
     <div class="wrapper-loading">
       <div *ngIf="loadingData" class="lod">
-        <mat-spinner></mat-spinner>
+        <mat-spinner [diameter]="54"></mat-spinner>
       </div>
     </div>
   </div>
