@@ -13,7 +13,7 @@ import { IConfig, NgxMaskModule } from 'ngx-mask';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(Approutes),
+    RouterModule.forRoot(Approutes, { useHash: true}),
     BrowserAnimationsModule,
     NgxDatatableModule,
     HttpClientModule,
