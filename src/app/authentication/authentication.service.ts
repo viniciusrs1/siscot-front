@@ -11,13 +11,13 @@ export class AuthenticationService {
   constructor(private httpClient: HttpClient, private router: Router) {}
 
   authentication(user: string){
-    console.log(user);
     return this.httpClient.post(`${environment.api}/login`, user).subscribe(data => {
-      
+
       const token = JSON.parse(JSON.stringify(data));
       // token = token.token.split(' ')[1]
       localStorage.setItem("token", token.token);
-      this.router.navigate(["/"]);
+      console.log(data)
+      // this.router.navigate(["/"]);
     },
     error => {
       console.error("Erro ao fazer login");
@@ -27,7 +27,7 @@ export class AuthenticationService {
   isAuthenticated(): boolean {
 
     this.httpClient.get(`${environment.api}/login`,)
-    
+
     const token = localStorage.getItem("token");
     if (!token) {
       return false;
