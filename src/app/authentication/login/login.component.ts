@@ -55,7 +55,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       //       this.loading = false;
       //     }
       //   );
-      console.log('logou');
+      this.authenticationService.authentication(this.loginForm.value);
+      this.loading = false;
+    
     } else {
       this.loginForm.markAllAsTouched();
       this.loading = false;
