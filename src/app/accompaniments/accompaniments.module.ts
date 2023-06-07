@@ -10,24 +10,12 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { HttpClientModule } from '@angular/common/http';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
   MatNativeDateModule,
 } from '@angular/material/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxMaskModule } from 'ngx-mask';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMAT } from '../shared/utils/date-formater';
@@ -40,26 +28,13 @@ import { MY_DATE_FORMAT } from '../shared/utils/date-formater';
     AddAccompanimentComponent,
   ],
   imports: [
-    CommonModule,
     RouterModule.forChild(AccompanimentsRoutes),
+    CommonModule,
     SharedModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     NgxDatatableModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatAutocompleteModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatTableModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSnackBarModule,
     NgxMaskModule.forChild(),
   ],
   providers: [
