@@ -7,18 +7,6 @@ import { FormAccompanimentComponent } from './form-accompaniment/form-accompanim
 import { EditAccompanimentComponent } from './edit-accompaniment/edit-accompaniment.component';
 import { AddAccompanimentComponent } from './add-accompaniment/add-accompaniment.component';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { HttpClientModule } from '@angular/common/http';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-  MatNativeDateModule,
-} from '@angular/material/core';
-import { NgxMaskModule } from 'ngx-mask';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MY_DATE_FORMAT } from '../shared/utils/date-formater';
 
 @NgModule({
   declarations: [
@@ -28,22 +16,9 @@ import { MY_DATE_FORMAT } from '../shared/utils/date-formater';
     AddAccompanimentComponent,
   ],
   imports: [
-    RouterModule.forChild(AccompanimentsRoutes),
     CommonModule,
     SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgxDatatableModule,
-    NgxMaskModule.forChild(),
-  ],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE],
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
+    RouterModule.forChild(AccompanimentsRoutes),
   ],
 })
 export class AccompanimentsModule {}
