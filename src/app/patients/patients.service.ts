@@ -27,4 +27,8 @@ export class PatientsService {
       user
     );
   }
+
+  deletePatient(id: number): Observable<any> {
+    return this.httpClient.delete<any>(`${environment.api}/pacientes/${id}`);
+  }
 }

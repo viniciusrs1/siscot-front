@@ -31,6 +31,12 @@ export class AccompanimentsService {
     );
   }
 
+  deleteAccompaniment(id: number): Observable<any> {
+    return this.httpClient.delete<any>(
+      `${environment.api}/acompanhamentos/${id}`
+    );
+  }
+
   getPatients(): Observable<void> {
     return this.httpClient.get<void>(`${environment.api}/pacientes`);
   }

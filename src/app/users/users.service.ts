@@ -27,4 +27,8 @@ export class UsersService {
       user
     );
   }
+
+  deleteUser(id: number): Observable<any> {
+    return this.httpClient.delete<any>(`${environment.api}/usuarios/${id}`);
+  }
 }
