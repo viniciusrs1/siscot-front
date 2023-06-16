@@ -1,0 +1,30 @@
+<div class="navbar">
+  <div class="container profile">
+    <div class="row">
+      <div class="col-12">
+        <div class="content">
+          <button mat-button [matMenuTriggerFor]="logout">
+            <span>Vinicius Rodrigues</span>
+            <mat-icon
+              class="profile"
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="account_circle"
+            ></mat-icon>
+          </button>
+          <mat-menu #logout="matMenu" xPosition="before">
+            <button mat-menu-item>
+              <mat-icon
+                class="logout"
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="logout"
+              ></mat-icon
+              ><span>Sair</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
