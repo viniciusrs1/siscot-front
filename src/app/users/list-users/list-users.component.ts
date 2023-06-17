@@ -39,7 +39,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
     if (this.temp?.length > 0) {
       const filter = this.temp.filter(
-        (item: any) => item.name.toLowerCase().indexOf(val) !== -1 || !val
+        (item: any) => item.nome.toLowerCase().indexOf(val) !== -1 || !val
       );
 
       this.rows = filter;
@@ -53,14 +53,14 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           res.map((item: any) => {
-            item.roleFormatted =
-              item.role === 'ADMIN'
+            item.cargoFormatado =
+              item.cargo === 'ADMIN'
                 ? 'Administrador'
-                : item.role === 'SECRETARIO'
+                : item.cargo === 'SECRETARIO'
                 ? 'Secretário'
-                : item.role === 'ASSISTENTE SOCIAL'
+                : item.cargo === 'ASSISTENTE SOCIAL'
                 ? 'Assistente Social'
-                : item.role;
+                : item.cargo;
           });
           this.rows = res ? res : [];
           this.temp = this.rows ? [...this.rows] : [];

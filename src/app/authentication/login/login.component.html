@@ -26,7 +26,7 @@
               <input
                 [type]="hide ? 'text' : 'password'"
                 matInput
-                formControlName="password"
+                formControlName="senha"
               />
 
               <button mat-icon-button matSuffix (click)="hide = !hide">
@@ -35,9 +35,7 @@
                 }}</mat-icon>
               </button>
 
-              <mat-error
-                *ngIf="loginForm?.get('password')?.hasError('required')"
-              >
+              <mat-error *ngIf="loginForm?.get('senha')?.hasError('required')">
                 <strong>Obrigatório</strong>
               </mat-error>
             </mat-form-field>
@@ -46,9 +44,7 @@
           <div class="form-button">
             <button class="login-button" (click)="login()">
               <ng-container *ngIf="!loading">Entrar</ng-container>
-              <div *ngIf="loading" class="spinner-border" role="status">
-                <span class="sr-only"></span>
-              </div>
+              <div *ngIf="loading" class="spinner-border" role="status"></div>
             </button>
           </div>
         </form>

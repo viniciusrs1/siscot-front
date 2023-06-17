@@ -39,7 +39,8 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
 
     if (this.temp?.length > 0) {
       const filter = this.temp.filter(
-        (item: any) => item.name.toLowerCase().indexOf(val) !== -1 || !val
+        (item: any) =>
+          item.pacienteData.name.toLowerCase().indexOf(val) !== -1 || !val
       );
 
       this.rows = filter;
@@ -54,7 +55,7 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
         next: (res: any) => {
           res.map(
             (item: any) =>
-              (item.dateFormatted = moment(item.data)
+              (item.dataFormatada = moment(item.data)
                 .utc()
                 .format('DD/MM/yyyy'))
           );

@@ -13,7 +13,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class FormAccompanimentComponent
   implements OnInit, OnChanges, OnDestroy
 {
-  destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() item: any = null;
   @Input() disabled: any = null;
   addAccompanimentForm: FormGroup = Object.create(null);
@@ -21,8 +20,8 @@ export class FormAccompanimentComponent
   loadingData: boolean = false;
   patients: any;
   professionals: any;
-  myModel: any;
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private router: Router,
@@ -75,7 +74,7 @@ export class FormAccompanimentComponent
       .subscribe({
         next: (res: any) => {
           this.professionals = res
-            ? res.filter((val: any) => val.role === 'ASSISTENTE SOCIAL')
+            ? res.filter((val: any) => val.cargo === 'ASSISTENTE SOCIAL')
             : [];
 
           console.log('pacientes', this.patients);

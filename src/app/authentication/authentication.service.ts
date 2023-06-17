@@ -15,8 +15,8 @@ export class AuthenticationService {
     private cookieService: CookieService
   ) {}
 
-  login(user: any): any {
-    return this.httpClient.post(`${environment.api}/login`, user);
+  login(user: any): Observable<void> {
+    return this.httpClient.post<void>(`${environment.api}/login`, user);
   }
 
   isAuthenticated(): boolean {
@@ -25,6 +25,7 @@ export class AuthenticationService {
 
   logout(): void {
     this.cookieService.delete('token');
+    this.cookieService.delete('nome');
     this.router.navigate(['/authentication/login']);
   }
 }

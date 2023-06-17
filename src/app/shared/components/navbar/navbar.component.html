@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col-12">
         <div class="content">
+          <span class="user">{{ name }}</span>
           <button mat-button [matMenuTriggerFor]="menu" #menuTrigger>
-            <span>Vinicius Rodrigues</span>
             <mat-icon
               class="profile"
               aria-hidden="false"
@@ -12,7 +12,7 @@
               fontIcon="account_circle"
             ></mat-icon>
           </button>
-          <mat-menu #menu="matMenu">
+          <mat-menu #menu="matMenu" xPosition="after">
             <button mat-menu-item (click)="logout()">
               <mat-icon
                 class="logout"

@@ -39,7 +39,7 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
 
     if (this.temp?.length > 0) {
       const filter = this.temp.filter(
-        (item: any) => item.name.toLowerCase().indexOf(val) !== -1 || !val
+        (item: any) => item.nome.toLowerCase().indexOf(val) !== -1 || !val
       );
 
       this.rows = filter;
@@ -53,8 +53,8 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           res.map((item: any) => {
-            item.addressFormatted = `${item.address}, ${item.number}`;
-            item.phoneFormatted = this.formatPhone(item.phone);
+            item.enderecoFormatado = `${item.endereco}, ${item.numero}`;
+            item.telefoneFormatado = this.formatPhone(item.telefone);
           });
 
           this.rows = res ? res : [];
