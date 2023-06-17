@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <div class="content">
-          <button mat-button [matMenuTriggerFor]="logout">
+          <button mat-button [matMenuTriggerFor]="menu" #menuTrigger>
             <span>Vinicius Rodrigues</span>
             <mat-icon
               class="profile"
@@ -12,8 +12,8 @@
               fontIcon="account_circle"
             ></mat-icon>
           </button>
-          <mat-menu #logout="matMenu" xPosition="before">
-            <button mat-menu-item>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logout()">
               <mat-icon
                 class="logout"
                 aria-hidden="false"

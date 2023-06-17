@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +15,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   loginForm: FormGroup = Object.create(null);
   loading: boolean = false;
+  hide: boolean = false;
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private cookieService: CookieService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -41,24 +46,33 @@ export class LoginComponent implements OnInit, OnDestroy {
   login(): void {
     this.loading = true;
     if (this.loginForm.valid) {
-      // this.authenticationService
-      //   .authentication(this.loginForm.value)
-      //   .pipe(takeUntil(this.destroy$))
-      //   .subscribe(
-      //     (response) => {
-      //       localStorage.setItem("token", response.accessToken);
-      //       localStorage.setItem("refreshToken", response.refreshToken);
-      //       this.router.navigate(["/"]);
-      //     },
-      //     (error) => {
-      //       console.log(error);
-      //       this.loading = false;
-      //     }
-      //   );
-      console.log('logou');
+      this.authenticationService.login(this.loginForm.value).subscribe({
+        next: (res: any) => {
+          console.log('res', res);
+          this.cookieService.set('token', res.token);
+          this.router.navigate(['/']);
+        },
+        error: (error: any) => {
+          this.openSnackBar(
+            'Usuário/Senha inválidos',
+            'Fechar',
+            'error-message'
+          );
+          this.loading = false;
+        },
+      });
     } else {
       this.loginForm.markAllAsTouched();
       this.loading = false;
     }
+  }
+
+  openSnackBar(message: string, action: string, panelClass: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+      panelClass: [panelClass],
+    });
   }
 }
