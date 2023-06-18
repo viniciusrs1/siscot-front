@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createFormLogin();
     if (this.authenticationService.isAuthenticated()) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard/home']);
     }
   }
 
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           next: (res: any) => {
             this.cookieService.set('token', res.token);
             this.cookieService.set('nome', res.usuario.nome);
-            this.router.navigate(['/']);
+            this.router.navigate(['/dashboard/home']);
           },
           error: (error: any) => {
             this.openSnackBar(
