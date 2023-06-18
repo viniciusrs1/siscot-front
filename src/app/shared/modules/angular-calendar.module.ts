@@ -10,7 +10,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
   imports: [
     CommonModule,
     NgbModalModule,
-    FlatpickrModule,
+    FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
