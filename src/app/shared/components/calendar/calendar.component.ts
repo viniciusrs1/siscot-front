@@ -21,6 +21,7 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  DAYS_OF_WEEK,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
 
@@ -42,18 +43,8 @@ const colors: Record<string, EventColor> = {
 @Component({
   selector: 'mwl-demo-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      h3 {
-        margin: 0 0 10px;
-      }
+  styleUrls: ['./calendar.component.scss'],
 
-      pre {
-        background-color: #f5f5f5;
-        padding: 15px;
-      }
-    `,
-  ],
   templateUrl: './calendar.component.html',
 })
 export class CalendarComponent {
@@ -65,6 +56,8 @@ export class CalendarComponent {
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
+
+  locale: string = 'pt';
 
   modalData!: {
     action: string;

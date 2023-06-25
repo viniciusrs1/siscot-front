@@ -29,7 +29,9 @@
     </div>
   </div>
   <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate : view + "ViewTitle" : "en" }}</h3>
+    <h3 class="cal-header">
+      {{ viewDate | calendarDate : view + "ViewTitle" : "pt" }}
+    </h3>
   </div>
   <div class="col-md-4">
     <div class="btn-group">
@@ -60,9 +62,11 @@
 <br />
 <div [ngSwitch]="view">
   <mwl-calendar-month-view
+    class="cal-header"
     *ngSwitchCase="CalendarView.Month"
     [viewDate]="viewDate"
     [events]="events"
+    [locale]="locale"
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
@@ -71,18 +75,22 @@
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view
+    class="cal-header"
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+    [locale]="locale"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
+    class="cal-header"
     *ngSwitchCase="CalendarView.Day"
     [viewDate]="viewDate"
     [events]="events"
+    [locale]="locale"
     [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
@@ -90,9 +98,11 @@
   </mwl-calendar-day-view>
 </div>
 
+<div>AQQ <i class="fa-solid fa-pen-to-square"></i></div>
+
 <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
 
-<br /><br /><br />
+<!-- <br /><br /><br />
 
 <h3>
   Edit events
@@ -207,4 +217,4 @@
       OK
     </button>
   </div>
-</ng-template>
+</ng-template> -->
