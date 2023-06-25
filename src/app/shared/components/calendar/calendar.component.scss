@@ -10,3 +10,16 @@ pre {
 .cal-header {
   text-transform: capitalize;
 }
+
+.back-next-button {
+  background: #240747;
+  border: 1px solid #240747;
+  width: 85px;
+}
+
+.current-button {
+  background: white;
+  color: #240747;
+  width: 85px;
+  border: 1px solid #240747;
+}

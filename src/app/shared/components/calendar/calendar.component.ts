@@ -21,7 +21,6 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
-  DAYS_OF_WEEK,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
 
@@ -59,6 +58,8 @@ export class CalendarComponent {
 
   locale: string = 'pt';
 
+  refresh = new Subject<void>();
+
   modalData!: {
     action: string;
     event: CalendarEvent;
@@ -82,21 +83,14 @@ export class CalendarComponent {
     },
   ];
 
-  refresh = new Subject<void>();
-
   events: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
-      title: 'A 3 day event',
+      title: 'Evento de um dia',
       color: { ...colors['red'] },
       actions: this.actions,
       allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
     },
     {
       start: startOfDay(new Date()),
