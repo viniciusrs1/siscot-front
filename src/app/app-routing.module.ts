@@ -35,4 +35,9 @@ export const Approutes: Routes = [
         (m) => m.AccompanimentsModule
       ),
   },
+  {
+    path: 'historic',
+    loadChildren: () =>
+      import('./historic/historic.module').then((m) => m.HistoricModule),
+  },
 ];
