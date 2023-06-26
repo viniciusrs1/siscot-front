@@ -12,13 +12,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./form-patient.component.scss'],
 })
 export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
-  destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() item: any = null;
   @Input() disabled: any = null;
   addPatientForm: FormGroup = Object.create(null);
   loading: boolean = false;
-  myModel: any;
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private router: Router,
@@ -44,7 +43,7 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
 
   createForm(): void {
     this.addPatientForm = new FormGroup({
-      name: new FormControl(
+      nome: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -52,7 +51,7 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
         [Validators.required]
       ),
 
-      gender: new FormControl(
+      genero: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -60,22 +59,14 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
         [Validators.required]
       ),
 
-      date_birth: new FormControl(
+      data_nascimento: new FormControl(
         {
           value: null,
           disabled: this.disabled,
         },
         [Validators.required]
       ),
-      address: new FormControl(
-        {
-          value: null,
-          disabled: this.disabled,
-        },
-        [Validators.required]
-      ),
-
-      number: new FormControl(
+      endereco: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -83,7 +74,15 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
         [Validators.required]
       ),
 
-      phone: new FormControl(
+      numero: new FormControl(
+        {
+          value: null,
+          disabled: this.disabled,
+        },
+        [Validators.required]
+      ),
+
+      telefone: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -99,7 +98,7 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
         [Validators.required, Validators.email]
       ),
 
-      info: new FormControl(
+      informacoes: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -111,14 +110,14 @@ export class FormPatientComponent implements OnInit, OnChanges, OnDestroy {
 
   populateForm(): void {
     this.addPatientForm.setValue({
-      name: this.item?.name,
-      gender: this.item?.gender,
-      date_birth: this.item?.date_birth,
-      address: this.item?.address,
-      number: this.item?.number,
-      phone: this.item?.phone,
+      nome: this.item?.nome,
+      genero: this.item?.genero,
+      data_nascimento: this.item?.data_nascimento,
+      endereco: this.item?.endereco,
+      numero: this.item?.numero,
+      telefone: this.item?.telefone,
       email: this.item?.email,
-      info: this.item?.info,
+      informacoes: this.item?.informacoes,
     });
   }
 

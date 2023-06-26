@@ -1,6 +1,7 @@
 <div class="users">
   <app-sidebar></app-sidebar>
   <div class="content">
+    <app-navbar></app-navbar>
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -26,9 +27,9 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Nome</mat-label>
 
-                  <input type="text" matInput formControlName="name" />
+                  <input type="text" matInput formControlName="nome" />
                   <mat-error
-                    *ngIf="addUserForm?.get('name')?.hasError('required')"
+                    *ngIf="addUserForm?.get('nome')?.hasError('required')"
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>
@@ -40,7 +41,7 @@
               <div class="form-group">
                 <mat-form-field style="width: 100%">
                   <mat-label>Cargo</mat-label>
-                  <mat-select formControlName="role">
+                  <mat-select formControlName="cargo">
                     <mat-option value="ADMIN">Administrador</mat-option>
                     <mat-option value="SECRETARIO">Secretário</mat-option>
                     <mat-option value="ASSISTENTE SOCIAL"
@@ -83,9 +84,9 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Senha</mat-label>
 
-                  <input type="text" matInput formControlName="password" />
+                  <input type="text" matInput formControlName="senha" />
                   <mat-error
-                    *ngIf="addUserForm?.get('password')?.hasError('required')"
+                    *ngIf="addUserForm?.get('senha')?.hasError('required')"
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>

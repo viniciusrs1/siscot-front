@@ -1,6 +1,7 @@
 <div class="patients">
   <app-sidebar></app-sidebar>
   <div class="content">
+    <app-navbar></app-navbar>
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -26,9 +27,9 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Nome</mat-label>
 
-                  <input type="text" matInput formControlName="name" />
+                  <input type="text" matInput formControlName="nome" />
                   <mat-error
-                    *ngIf="addPatientForm?.get('name')?.hasError('required')"
+                    *ngIf="addPatientForm?.get('nome')?.hasError('required')"
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>
@@ -40,7 +41,7 @@
               <div class="form-group">
                 <mat-form-field style="width: 100%">
                   <mat-label>Gênero</mat-label>
-                  <mat-select formControlName="gender">
+                  <mat-select formControlName="genero">
                     <mat-option value="MASCULINO">Masculino</mat-option>
                     <mat-option value="FEMININO">Feminino</mat-option>
                     <mat-option value="OUTRO">Outro</mat-option>
@@ -61,7 +62,7 @@
                   <input
                     matInput
                     [matDatepicker]="picker"
-                    formControlName="date_birth"
+                    formControlName="data_nascimento"
                   />
                   <mat-datepicker-toggle
                     matIconSuffix
@@ -77,9 +78,11 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Endereço</mat-label>
 
-                  <input type="text" matInput formControlName="address" />
+                  <input type="text" matInput formControlName="endereco" />
                   <mat-error
-                    *ngIf="addPatientForm?.get('address')?.hasError('required')"
+                    *ngIf="
+                      addPatientForm?.get('endereco')?.hasError('required')
+                    "
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>
@@ -92,9 +95,9 @@
                 <mat-form-field style="width: 100%">
                   <mat-label>Número</mat-label>
 
-                  <input type="number" matInput formControlName="number" />
+                  <input type="number" matInput formControlName="numero" />
                   <mat-error
-                    *ngIf="addPatientForm?.get('number')?.hasError('required')"
+                    *ngIf="addPatientForm?.get('numero')?.hasError('required')"
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>
@@ -114,10 +117,12 @@
                   <input
                     matInput
                     mask="(00) 0 0000-0000||(00) 0000-0000"
-                    formControlName="phone"
+                    formControlName="telefone"
                   />
                   <mat-error
-                    *ngIf="addPatientForm?.get('phone')?.hasError('required')"
+                    *ngIf="
+                      addPatientForm?.get('telefone')?.hasError('required')
+                    "
                   >
                     <strong>Obrigatório</strong>
                   </mat-error>
@@ -159,7 +164,7 @@
                   <textarea
                     type="text"
                     matInput
-                    formControlName="info"
+                    formControlName="informacoes"
                     style="height: 100px"
                   ></textarea>
                 </mat-form-field>

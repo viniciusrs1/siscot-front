@@ -35,14 +35,14 @@
     }
 
     .back-button {
-      background-color: #e1a698;
-      border: 1px solid #e1a698;
+      background-color: #bb1d32;
+      border: 1px solid #bb1d32;
 
       &:hover {
         background: white;
         text-decoration: none;
-        border: 1px solid #e1a698;
-        color: #e1a698 !important;
+        border: 1px solid #bb1d32;
+        color: #bb1d32 !important;
       }
 
       &:focus {
@@ -54,6 +54,13 @@
       width: 18px;
       height: 18px;
       font-size: 8px;
+    }
+
+    .wrapper-loading {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
     }
   }
 }

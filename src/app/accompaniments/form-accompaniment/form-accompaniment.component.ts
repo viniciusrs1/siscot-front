@@ -13,13 +13,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class FormAccompanimentComponent
   implements OnInit, OnChanges, OnDestroy
 {
-  destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() item: any = null;
   @Input() disabled: any = null;
   addAccompanimentForm: FormGroup = Object.create(null);
   loading: boolean = false;
-  myModel: any;
+  loadingData: boolean = false;
+  patients: any;
+  professionals: any;
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private router: Router,
@@ -30,6 +32,7 @@ export class FormAccompanimentComponent
 
   ngOnInit(): void {
     this.createForm();
+    this.getPatients();
   }
 
   ngOnDestroy() {
@@ -43,9 +46,56 @@ export class FormAccompanimentComponent
     }
   }
 
+  getPatients(): any {
+    this.loadingData = true;
+    this.accompanimentsService
+      .getPatients()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.patients = res ? res : [];
+          this.getProfessional();
+        },
+        error: (error: any) => {
+          this.openSnackBar(
+            'Erro ao carregar a lista de pacientes.',
+            'Fechar',
+            'error-message'
+          );
+          this.loadingData = false;
+        },
+      });
+  }
+
+  getProfessional(): any {
+    this.accompanimentsService
+      .getUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.professionals = res
+            ? res.filter((val: any) => val.cargo === 'ASSISTENTE SOCIAL')
+            : [];
+
+          console.log('pacientes', this.patients);
+          console.log('profissionais', this.professionals);
+
+          this.loadingData = false;
+        },
+        error: (error: any) => {
+          this.openSnackBar(
+            'Erro ao carregar a lista de profissionais.',
+            'Fechar',
+            'error-message'
+          );
+          this.loadingData = false;
+        },
+      });
+  }
+
   createForm(): void {
     this.addAccompanimentForm = new FormGroup({
-      patient_id: new FormControl(
+      pacienteId: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -53,7 +103,7 @@ export class FormAccompanimentComponent
         [Validators.required]
       ),
 
-      professional_id: new FormControl(
+      profissionalId: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -61,7 +111,7 @@ export class FormAccompanimentComponent
         [Validators.required]
       ),
 
-      date: new FormControl(
+      data: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -69,7 +119,7 @@ export class FormAccompanimentComponent
         [Validators.required]
       ),
 
-      notes: new FormControl(
+      anotacoes: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -81,10 +131,10 @@ export class FormAccompanimentComponent
 
   populateForm(): void {
     this.addAccompanimentForm.setValue({
-      patient_id: this.item?.patient_id,
-      professional_id: this.item?.professional_id,
-      date: this.item?.date,
-      notes: this.item?.notes,
+      pacienteId: this.item?.pacienteId,
+      profissionalId: this.item?.profissionalId,
+      data: this.item?.data,
+      anotacoes: this.item?.anotacoes,
     });
   }
 
@@ -138,7 +188,7 @@ export class FormAccompanimentComponent
             'Fechar',
             'success-message'
           );
-          this.router.navigate(['/patients/list']);
+          this.router.navigate(['/accompaniments/list']);
         },
         error: (error: any) => {
           this.openSnackBar(

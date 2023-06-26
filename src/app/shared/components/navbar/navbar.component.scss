@@ -1,0 +1,30 @@
+.navbar {
+  height: 54px;
+  background: #f3f3f3;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  .user {
+    margin-right: 6px;
+  }
+
+  .profile {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .content {
+      .profile {
+        height: 40px;
+        width: 40px;
+        font-size: 40px;
+        color: #240747;
+        cursor: pointer;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.logout {
+  margin-right: 8px !important;
+}

@@ -4,6 +4,7 @@ import { UsersService } from '../users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-users',
@@ -38,7 +39,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
     if (this.temp?.length > 0) {
       const filter = this.temp.filter(
-        (item: any) => item.name.toLowerCase().indexOf(val) !== -1 || !val
+        (item: any) => item.nome.toLowerCase().indexOf(val) !== -1 || !val
       );
 
       this.rows = filter;
@@ -52,14 +53,14 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           res.map((item: any) => {
-            item.roleFormatted =
-              item.role === 'ADMIN'
+            item.cargoFormatado =
+              item.cargo === 'ADMIN'
                 ? 'Administrador'
-                : item.role === 'SECRETARIO'
+                : item.cargo === 'SECRETARIO'
                 ? 'Secretário'
-                : item.role === 'ASSISTENTE SOCIAL'
+                : item.cargo === 'ASSISTENTE SOCIAL'
                 ? 'Assistente Social'
-                : item.role;
+                : item.cargo;
           });
           this.rows = res ? res : [];
           this.temp = this.rows ? [...this.rows] : [];
@@ -86,6 +87,50 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   editUser(id: number): void {
     this.route.navigate(['/users/form/', 'edit', id]);
+  }
+
+  deleteUser(id: any): void {
+    this.loading = true;
+    this.usersService
+      .deleteUser(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.openSnackBar(
+            'Usuário deletado com sucesso.',
+            'Fechar',
+            'success-message'
+          );
+
+          this.getUsers();
+        },
+        error: (error) => {
+          this.openSnackBar(
+            'Erro ao deletar o usuário.',
+            'Fechar',
+            'error-message'
+          );
+          this.loading = false;
+        },
+      });
+  }
+
+  confirmDeleteUser(id: any): void {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação não poderá ser revertida.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'green',
+      cancelButtonColor: 'red',
+      confirmButtonText: 'Deletar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteUser(id);
+      }
+    });
   }
 
   openSnackBar(message: string, action: string, panelClass: string) {

@@ -1,6 +1,7 @@
 <div class="accompaniments">
   <app-sidebar></app-sidebar>
   <div class="content">
+    <app-navbar></app-navbar>
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -48,19 +49,19 @@
           >
             <ngx-datatable-column
               name="Paciente"
-              prop="patient"
+              prop="pacienteData.nome"
               [flexGrow]="0.25"
             ></ngx-datatable-column>
 
             <ngx-datatable-column
               name="Profissional"
-              prop="professional"
+              prop="profissionalData.nome"
               [flexGrow]="0.25"
             ></ngx-datatable-column>
 
             <ngx-datatable-column
               name="Data"
-              prop="date"
+              prop="dataFormatada"
               [flexGrow]="0.2"
             ></ngx-datatable-column>
 
@@ -80,7 +81,7 @@
                     fontIcon="edit"
                   ></mat-icon>
                 </a>
-                <a class="link">
+                <a class="link" (click)="confirmDeleteAccompaniment(value.id)">
                   <mat-icon
                     aria-hidden="false"
                     aria-label="Example home icon"

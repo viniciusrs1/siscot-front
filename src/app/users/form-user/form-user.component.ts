@@ -12,11 +12,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./form-user.component.scss'],
 })
 export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
-  destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() item: any = null;
   @Input() disabled: any = null;
   addUserForm: FormGroup = Object.create(null);
   loading: boolean = false;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private router: Router,
@@ -42,7 +42,7 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
 
   createForm(): void {
     this.addUserForm = new FormGroup({
-      name: new FormControl(
+      nome: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -58,14 +58,14 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
         [Validators.required, Validators.email]
       ),
 
-      role: new FormControl(
+      cargo: new FormControl(
         {
           value: null,
           disabled: this.disabled,
         },
         [Validators.required]
       ),
-      password: new FormControl(
+      senha: new FormControl(
         {
           value: null,
           disabled: this.disabled,
@@ -77,10 +77,10 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
 
   populateForm(): void {
     this.addUserForm.setValue({
-      name: this.item?.name,
+      nome: this.item?.nome,
       email: this.item?.email,
-      role: this.item?.role,
-      password: this.item?.password,
+      cargo: this.item?.cargo,
+      senha: this.item?.senha,
     });
   }
 

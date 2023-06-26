@@ -1,6 +1,7 @@
 <div class="users">
   <app-sidebar></app-sidebar>
   <div class="content">
+    <app-navbar></app-navbar>
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -48,7 +49,7 @@
           >
             <ngx-datatable-column
               name="Nome"
-              prop="name"
+              prop="nome"
               [flexGrow]="0.3"
             ></ngx-datatable-column>
 
@@ -59,7 +60,7 @@
             ></ngx-datatable-column>
             <ngx-datatable-column
               name="Cargo"
-              prop="roleFormatted"
+              prop="cargoFormatado"
               [flexGrow]="0.15"
             ></ngx-datatable-column>
 
@@ -79,7 +80,7 @@
                     fontIcon="edit"
                   ></mat-icon>
                 </a>
-                <a class="link">
+                <a class="link" (click)="confirmDeleteUser(value.id)">
                   <mat-icon
                     aria-hidden="false"
                     aria-label="Example home icon"

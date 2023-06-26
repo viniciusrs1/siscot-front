@@ -1,43 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, elementAt } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private cookieService: CookieService
+  ) {}
 
-  authentication(user: string){
-    return this.httpClient.post(`${environment.api}/login`, user).subscribe(data => {
-
-      const token = JSON.parse(JSON.stringify(data));
-      // token = token.token.split(' ')[1]
-      localStorage.setItem("token", token.token);
-      console.log(data)
-      // this.router.navigate(["/"]);
-    },
-    error => {
-      console.error("Erro ao fazer login");
-    });
+  login(user: any): Observable<void> {
+    return this.httpClient.post<void>(`${environment.api}/login`, user);
   }
 
   isAuthenticated(): boolean {
-
-    this.httpClient.get(`${environment.api}/login`,)
-
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return false;
-    }
-    return true;
+    return this.cookieService.check('token');
   }
 
   logout(): void {
-    localStorage.clear();
-
-    this.router.navigateByUrl("/authentication/login");
+    this.cookieService.delete('token');
+    this.cookieService.delete('nome');
+    this.router.navigate(['/authentication/login']);
   }
 }
