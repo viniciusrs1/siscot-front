@@ -17,6 +17,7 @@ import {
 import { Router } from '@angular/router';
 import { AccompanimentFormService } from '../../services/AccompanimentFormService';
 import { colors } from '../../utils/colors';
+import { AccompanimentsService } from 'src/app/accompaniments/accompaniments.service';
 @Component({
   selector: 'mwl-demo-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,6 +63,7 @@ export class CalendarComponent implements OnInit {
   constructor(
     private modal: NgbModal,
     private router: Router,
+    private accompanimentsService: AccompanimentsService,
     private accompanimentFormService: AccompanimentFormService
   ) {
     this.formData = this.accompanimentFormService.getFormData();
@@ -70,8 +72,37 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     if (this.formData) {
       this.addEvent();
+      console.log('form', this.events);
     }
+    this.loadEvents();
+    console.log('result', this.events);
   }
+
+  loadEvents() {
+    this.accompanimentsService.getAccompaniments().subscribe({
+      next: (response : any) => {
+        response.forEach((element: any) => {
+          this.events.push({
+            start: startOfDay(new Date(element.start)),
+            title: element.title,
+            color: colors['red'],
+            actions: this.actions,
+            allDay: true,
+            meta: {
+              id: element.id,
+              pacienteId: element.pacienteId,
+              profissionalId: element.profissionalId,
+            },
+          });
+        });
+        this.refresh.next();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -106,28 +137,32 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    console.log('clicouuu', event, action);
+    const data = {
+      anotacoes: event.title,
+      data: event.start,
+      pacienteId: event.meta.pacienteId,
+      profissionalId: event.meta.profissionalId,
+    };
+    this.router.navigateByUrl(`accompaniments/view/${event.meta.id}`);
   }
 
   openAccompanimentForm() {
     this.router.navigateByUrl('accompaniments/form/add');
   }
   addEvent(): void {
-    this.events = [
-      ...this.events,
+    const data = 
       {
         title: this.formData.anotacoes,
         start: this.formData.data,
-        color: colors['red'],
-        actions: this.actions,
-        allDay: true,
-        meta: {
-          pacienteId: this.formData.pacienteId,
-          profissionalId: this.formData.profissionalId,
-        },
-      },
-    ];
-  }
+        pacienteId: this.formData.pacienteId,
+        profissionalId: this.formData.profissionalId,
+      }
+      this.accompanimentsService.addAccompaniment(data).subscribe({
+        next: (response) => {
+          this.accompanimentFormService.clearFormData();
+          this.loadEvents();
+      }, error: (error) => {console.log('error', error)}
+  })}
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
