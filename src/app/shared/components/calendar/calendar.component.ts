@@ -3,17 +3,9 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
+  OnInit,
 } from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
+import { startOfDay, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -22,23 +14,9 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import { EventColor } from 'calendar-utils';
-
-const colors: Record<string, EventColor> = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
-
+import { Router } from '@angular/router';
+import { AccompanimentFormService } from '../../services/AccompanimentFormService';
+import { colors } from '../../utils/colors';
 @Component({
   selector: 'mwl-demo-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,20 +24,16 @@ const colors: Record<string, EventColor> = {
 
   templateUrl: './calendar.component.html',
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   @ViewChild('modalContent', { static: true })
   modalContent!: TemplateRef<any>;
-
   view: CalendarView = CalendarView.Month;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
-
   locale: string = 'pt';
-
   refresh = new Subject<void>();
-
+  activeDayIsOpen: boolean = false;
+  formData: any;
   modalData!: {
     action: string;
     event: CalendarEvent;
@@ -83,45 +57,21 @@ export class CalendarComponent {
     },
   ];
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'Evento de um dia',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  events: CalendarEvent[] = [];
 
-  activeDayIsOpen: boolean = true;
+  constructor(
+    private modal: NgbModal,
+    private router: Router,
+    private accompanimentFormService: AccompanimentFormService
+  ) {
+    this.formData = this.accompanimentFormService.getFormData();
+  }
 
-  constructor(private modal: NgbModal) {}
+  ngOnInit(): void {
+    if (this.formData) {
+      this.addEvent();
+    }
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -156,22 +106,24 @@ export class CalendarComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    console.log('clicouuu', event, action);
   }
 
+  openAccompanimentForm() {
+    this.router.navigateByUrl('accompaniments/form/add');
+  }
   addEvent(): void {
     this.events = [
       ...this.events,
       {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
+        title: this.formData.anotacoes,
+        start: this.formData.data,
         color: colors['red'],
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
+        actions: this.actions,
+        allDay: true,
+        meta: {
+          pacienteId: this.formData.pacienteId,
+          profissionalId: this.formData.profissionalId,
         },
       },
     ];

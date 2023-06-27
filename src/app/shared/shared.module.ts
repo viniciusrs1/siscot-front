@@ -6,6 +6,7 @@ import { CommonModulesModule } from './modules/common-modules.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AngularCalendarModule } from './modules/angular-calendar.module';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { AccompanimentFormService } from './services/AccompanimentFormService';
 
 @NgModule({
   declarations: [SidebarComponent, NavbarComponent, CalendarComponent],

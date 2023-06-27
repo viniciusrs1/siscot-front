@@ -1,5 +1,29 @@
+.content {
+  margin-top: 34px;
+}
+
 h3 {
   margin: 0 0 10px;
+}
+
+.addButton {
+  background: #240747;
+  color: white;
+
+  &:hover {
+    background: white;
+    text-decoration: none;
+    border: 1px solid #240747;
+    color: #240747;
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.top {
+  margin-bottom: 60px;
 }
 
 pre {
