@@ -1,0 +1,104 @@
+<div class="historic">
+  <app-sidebar></app-sidebar>
+  <div class="content">
+    <app-navbar></app-navbar>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2>Lista de Histórico</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <form action="">
+            <mat-form-field style="width: 100%">
+              <mat-label>Buscar</mat-label>
+
+              <input
+                type="text"
+                matInput
+                name="filter"
+                style="height: 24px"
+                [ngModel]="filter"
+                (ngModelChange)="updateFilter($event)"
+              />
+            </mat-form-field>
+          </form>
+        </div>
+
+        <div class="col-8 wrapper-button">
+          <button class="btn btn-lg" (click)="addHistoric()">
+            Adicionar Histórico
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <ngx-datatable
+            class="material container striped"
+            [rows]="rows"
+            [columnMode]="'flex'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            rowHeight="auto"
+            [limit]="maxRows"
+            [loadingIndicator]="!rows || loading"
+            [messages]="{ emptyMessage: 'Nenhum histórico encontrado.' }"
+          >
+            <ngx-datatable-column
+              name="Nome"
+              prop="nome"
+              [flexGrow]="0.2"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Endereço"
+              prop="enderecoFormatado"
+              [flexGrow]="0.2"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Telefone"
+              prop="telefoneFormatado"
+              [flexGrow]="0.15"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Email"
+              prop="email"
+              [flexGrow]="0.2"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column name="Ações" prop="" [flexGrow]="0.1">
+              <ng-template ngx-datatable-cell-template let-value="value">
+                <a class="link mr-2" (click)="viewHistoric(value.id)">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="visibility"
+                  ></mat-icon>
+                </a>
+                <a class="link mr-2" (click)="editHistoric(value.id)">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="edit"
+                  ></mat-icon>
+                </a>
+                <a class="link" (click)="confirmDeleteHistoric(value.id)">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="delete"
+                  ></mat-icon>
+                </a>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

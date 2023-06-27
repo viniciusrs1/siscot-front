@@ -1,8 +1,127 @@
-<div class="patients">
+<div class="historic">
   <app-sidebar></app-sidebar>
   <div class="content">
     <app-navbar></app-navbar>
     <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="form-row">
+            <ng-container>
+              {{
+                route.snapshot.params["action"] === "edit"
+                  ? "Editar Histórico"
+                  : route.snapshot.params["action"] === "view"
+                  ? "Visualizar Histórico"
+                  : "Adicionar Histórico"
+              }}
+            </ng-container>
+          </h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <form [formGroup]="addHistoricForm" (ngSubmit)="onSubmit()">
+          <div class="row form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Alergias</mat-label>
+
+                  <input type="text" matInput formControlName="alergias"/>
+                  <mat-error *ngIf="addHistoricForm?.get('alergias')?.hasError('required')">
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Doenças preexistentes</mat-label>
+
+                  <input type="text" matInput formControlName="doencas_preexistentes"/>
+                  <mat-error *ngIf="addHistoricForm?.get('doencas_preexistentes')?.hasError('required')">
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <hr/>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Cirurgias previas</mat-label>
+
+                  <input type="text" matInput formControlName="cirurgias_previas"/>
+                  <mat-error *ngIf="addHistoricForm?.get('cirurgias_previas')?.hasError('required')">
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Medicamentos usados</mat-label>
+
+                  <input type="text" matInput formControlName="medicamentos_uso"/>
+                  <mat-error *ngIf="addHistoricForm?.get('medicamentos_uso')?.hasError('required')">
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Outros</mat-label>
+
+                  <input type="text" matInput formControlName="outros"/>
+                  <mat-error *ngIf="addHistoricForm?.get('outros')?.hasError('required')">
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="button-group form-row">
+              <div class="row">
+                <div class="col-md-6">
+                  <button
+                    class="btn btn-lg btn-warning text-white back-button"
+                    (click)="backPage()"
+                  >
+                    Voltar
+                  </button>
+                </div>
+                <div class="col-md-6 wrapper-save-historic">
+                  <button
+                    *ngIf="!disabled"
+                    class="btn btn-lg btn-success text-white save-historic"
+                    type="submit"
+                  >
+                    <ng-container *ngIf="!loading">
+                      {{ route.snapshot.params["id"] ? "Editar" : "Cadastrar" }}
+                    </ng-container>
+
+                    <div
+                      *ngIf="loading"
+                      class="spinner-border"
+                      role="status"
+                    ></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
