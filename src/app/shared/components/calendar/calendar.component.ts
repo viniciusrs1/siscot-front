@@ -1,25 +1,17 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-  OnInit,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { startOfDay, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
-  CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AccompanimentFormService } from '../../services/AccompanimentForm.service';
 import { colors } from '../../utils/colors';
 import { AccompanimentsService } from 'src/app/accompaniments/accompaniments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AccompanimentDataService } from '../../services/AccompanimentData.service';
+
 @Component({
   selector: 'mwl-demo-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,8 +20,6 @@ import { AccompanimentDataService } from '../../services/AccompanimentData.servi
   templateUrl: './calendar.component.html',
 })
 export class CalendarComponent implements OnInit {
-  @ViewChild('modalContent', { static: true })
-  modalContent!: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
@@ -37,10 +27,6 @@ export class CalendarComponent implements OnInit {
   refresh = new Subject<void>();
   activeDayIsOpen: boolean = false;
   formData: any;
-  modalData!: {
-    action: string;
-    event: CalendarEvent;
-  };
 
   actions: CalendarEventAction[] = [
     {
@@ -63,11 +49,9 @@ export class CalendarComponent implements OnInit {
   events: CalendarEvent[] = [];
 
   constructor(
-    private modal: NgbModal,
     private router: Router,
     private accompanimentsService: AccompanimentsService,
     private accompanimentFormService: AccompanimentFormService,
-    private accompanimentDataService: AccompanimentDataService,
     private _snackBar: MatSnackBar
   ) {
     this.formData = this.accompanimentFormService.getFormData();
@@ -138,35 +122,21 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  // handleEvent(action: string, event: CalendarEvent): void {
-  //   const accompanimentData = {
-  //     anotacoes: event.title,
-  //     data: event.start,
-  //     pacienteId: event.meta.pacienteId,
-  //     profissionalId: event.meta.profissionalId,
-  //   };
-
-  //   this.accompanimentDataService.setData(accompanimentData);
-  //   this.router.navigateByUrl(`accompaniments/form/view/${event.meta.id}`);
-  // }
-
   handleEvent(action: string, event: CalendarEvent): void {
-    //evento deletado
     if (action === 'Deleted') {
       this.deleteEvent(event);
     }
-    //evento editado
+
     if (action === 'Edited') {
       this.router.navigateByUrl(`accompaniments/form/edit/${event.meta.id}`);
     }
-    //evento clicado
+
     if (action === 'Clicked') {
       this.router.navigateByUrl(`accompaniments/form/view/${event.meta.id}`);
     }
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    console.log('event', eventToDelete);
     this.accompanimentsService
       .deleteAccompaniment(eventToDelete.meta.id)
       .subscribe({

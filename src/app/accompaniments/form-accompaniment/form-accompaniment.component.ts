@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AccompanimentsService } from '../accompaniments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AccompanimentFormService } from 'src/app/shared/services/AccompanimentForm.service';
-import { AccompanimentDataService } from 'src/app/shared/services/AccompanimentData.service';
 
 @Component({
   selector: 'app-form-accompaniment',
@@ -29,11 +27,8 @@ export class FormAccompanimentComponent
     private router: Router,
     public route: ActivatedRoute,
     private accompanimentsService: AccompanimentsService,
-    private _snackBar: MatSnackBar // private accompanimentFormService: AccompanimentFormService,
-  ) // private accompanimentDataService: AccompanimentDataService
-  {
-    // this.item = accompanimentDataService.getData();
-  }
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -156,23 +151,6 @@ export class FormAccompanimentComponent
       this.addAccompanimentForm.markAllAsTouched();
     }
   }
-
-  // onSubmit(): void {
-  //   const data: any = { ...this.addAccompanimentForm.value };
-  //   if (this.addAccompanimentForm.valid) {
-
-  //     this.addAccompanimentForm.value.data =
-  //       this.addAccompanimentForm.value.data.toDate();
-
-  //     this.accompanimentFormService.setFormData(
-  //       this.addAccompanimentForm.value
-  //     );
-
-  //     this.router.navigateByUrl('dashboard/home');
-  //   } else {
-  //     this.addAccompanimentForm.markAllAsTouched();
-  //   }
-  // }
 
   addAccompaniment(info: any): void {
     const data = {
