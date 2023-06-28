@@ -52,8 +52,8 @@ export class CalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
         this.handleEvent('Deleted', event);
+        this.loadEvents();
       },
     },
   ];
@@ -81,6 +81,8 @@ export class CalendarComponent implements OnInit {
   loadEvents() {
     this.accompanimentsService.getAccompaniments().subscribe({
       next: (response : any) => {
+        console.log(response);
+        this.events = [];
         response.forEach((element: any) => {
           this.events.push({
             start: startOfDay(new Date(element.start)),
@@ -137,13 +139,18 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    const data = {
-      anotacoes: event.title,
-      data: event.start,
-      pacienteId: event.meta.pacienteId,
-      profissionalId: event.meta.profissionalId,
-    };
-    this.router.navigateByUrl(`accompaniments/view/${event.meta.id}`);
+    //evento deletado
+    if (action === 'Deleted') {
+      this.deleteEvent(event);
+    }
+    //evento editado
+    if (action === 'Edited') {
+      this.router.navigateByUrl(`accompaniments/form/edit/${event.meta.id}`);
+    }
+    //evento clicado
+    if (action === 'Clicked') {
+      this.router.navigateByUrl(`accompaniments/form/view/${event.meta.id}`);
+    }
   }
 
   openAccompanimentForm() {
@@ -165,8 +172,13 @@ export class CalendarComponent implements OnInit {
   })}
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
+    console.log('event', eventToDelete);
+    this.accompanimentsService.deleteAccompaniment(eventToDelete.meta.id).subscribe({
+      next: (response) => {
+        this.events = this.events.filter((event) => event !== eventToDelete);
+        this.loadEvents();
+      }, error: (error) => {console.log('error', error)}
+  })}
 
   setView(view: CalendarView) {
     this.view = view;

@@ -133,38 +133,37 @@ export class FormAccompanimentComponent
 
   populateForm(): void {
     this.addAccompanimentForm.setValue({
-      pacienteId: this.item?.pacienteId,
-      profissionalId: this.item?.profissionalId,
-      data: this.item?.data,
-      anotacoes: this.item?.anotacoes,
+      pacienteId: this.item.pacienteId,
+      profissionalId: this.item.profissionalId,
+      data: this.item.start,
+      anotacoes: this.item.title,
     });
   }
 
   onSubmit(): void {
     const data: any = { ...this.addAccompanimentForm.value };
     if (this.addAccompanimentForm.valid) {
-      // this.loading = true;
-      // if (this.route.snapshot.params['id']) {
-      //   data.id = this.route.snapshot.params['id'];
-      //   this.editAccompaniment(data);
-      // } else {
-      //   this.addAccompaniment(data);
-      // }
-      this.addAccompanimentForm.value.data =
-        this.addAccompanimentForm.value.data.toDate();
-      console.log('form', this.addAccompanimentForm.value);
-
-      this.accompanimentFormService.setFormData(
-        this.addAccompanimentForm.value
-      );
-
-      this.router.navigateByUrl('dashboard/home');
+      this.loading = true;
+      if (this.route.snapshot.params['id']) {
+        data.id = this.route.snapshot.params['id'];
+        console.log('edit', data);
+        this.editAccompaniment(data);
+      } else {
+        this.addAccompaniment(data);
+        console.log('data', data);
+      }
     } else {
       this.addAccompanimentForm.markAllAsTouched();
     }
   }
 
-  addAccompaniment(data: any): void {
+  addAccompaniment(info: any): void {
+    const data = {
+      pacienteId: info.pacienteId,
+      profissionalId: info.profissionalId,
+      start: info.data,
+      title: info.anotacoes,
+    };
     this.accompanimentsService
       .addAccompaniment(data)
       .pipe(takeUntil(this.destroy$))
@@ -188,7 +187,14 @@ export class FormAccompanimentComponent
       });
   }
 
-  editAccompaniment(data: any): void {
+  editAccompaniment(info: any): void {
+    const data = {
+      id: info.id,
+      pacienteId: info.pacienteId,
+      profissionalId: info.profissionalId,
+      start: info.data,
+      title: info.anotacoes,
+    };
     this.accompanimentsService
       .updateAccompaniment(data)
       .pipe(takeUntil(this.destroy$))
@@ -199,7 +205,6 @@ export class FormAccompanimentComponent
             'Fechar',
             'success-message'
           );
-          this.router.navigate(['/accompaniments/list']);
         },
         error: (error: any) => {
           this.openSnackBar(
