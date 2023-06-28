@@ -29,11 +29,10 @@ export class FormAccompanimentComponent
     private router: Router,
     public route: ActivatedRoute,
     private accompanimentsService: AccompanimentsService,
-    private _snackBar: MatSnackBar,
-    private accompanimentFormService: AccompanimentFormService,
-    private accompanimentDataService: AccompanimentDataService
-  ) {
-    this.item = accompanimentDataService.getData();
+    private _snackBar: MatSnackBar // private accompanimentFormService: AccompanimentFormService,
+  ) // private accompanimentDataService: AccompanimentDataService
+  {
+    // this.item = accompanimentDataService.getData();
   }
 
   ngOnInit(): void {
@@ -192,7 +191,7 @@ export class FormAccompanimentComponent
             'Fechar',
             'success-message'
           );
-          this.router.navigate(['/accompaniments/list']);
+          this.router.navigate(['/dashboard/home']);
         },
         error: (error: any) => {
           this.openSnackBar(
@@ -213,11 +212,13 @@ export class FormAccompanimentComponent
       start: info.data,
       title: info.anotacoes,
     };
+
     this.accompanimentsService
       .updateAccompaniment(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
+          this.router.navigateByUrl('/dashboard/home');
           this.openSnackBar(
             'Acompanhamento editado com sucesso!',
             'Fechar',
@@ -236,7 +237,7 @@ export class FormAccompanimentComponent
   }
 
   backPage(): void {
-    this.router.navigateByUrl('/accompaniments/list');
+    this.router.navigateByUrl('/dashboard/home');
   }
 
   openSnackBar(message: string, action: string, panelClass: string) {

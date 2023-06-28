@@ -170,12 +170,21 @@ export class CalendarComponent implements OnInit {
     this.accompanimentsService
       .deleteAccompaniment(eventToDelete.meta.id)
       .subscribe({
-        next: (response) => {
-          this.events = this.events.filter((event) => event !== eventToDelete);
+        next: (res) => {
+          this.openSnackBar(
+            'Acompanhamento deletado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
+          this.closeOpenMonthViewDay();
           this.loadEvents();
         },
         error: (error) => {
-          console.log('error', error);
+          this.openSnackBar(
+            'Erro ao deletar o acompanhamento.',
+            'Fechar',
+            'error-message'
+          );
         },
       });
   }
