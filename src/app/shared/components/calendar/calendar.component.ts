@@ -54,8 +54,8 @@ export class CalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
         this.handleEvent('Deleted', event);
+        this.loadEvents();
       },
     },
   ];
@@ -80,6 +80,7 @@ export class CalendarComponent implements OnInit {
   loadEvents() {
     this.accompanimentsService.getAccompaniments().subscribe({
       next: (response: any) => {
+        this.events = [];
         response.forEach((element: any) => {
           this.events.push({
             start: startOfDay(new Date(element.start)),
@@ -137,16 +138,46 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    const accompanimentData = {
-      anotacoes: event.title,
-      data: event.start,
-      pacienteId: event.meta.pacienteId,
-      profissionalId: event.meta.profissionalId,
-    };
+  // handleEvent(action: string, event: CalendarEvent): void {
+  //   const accompanimentData = {
+  //     anotacoes: event.title,
+  //     data: event.start,
+  //     pacienteId: event.meta.pacienteId,
+  //     profissionalId: event.meta.profissionalId,
+  //   };
 
-    this.accompanimentDataService.setData(accompanimentData);
-    this.router.navigateByUrl(`accompaniments/form/view/${event.meta.id}`);
+  //   this.accompanimentDataService.setData(accompanimentData);
+  //   this.router.navigateByUrl(`accompaniments/form/view/${event.meta.id}`);
+  // }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    //evento deletado
+    if (action === 'Deleted') {
+      this.deleteEvent(event);
+    }
+    //evento editado
+    if (action === 'Edited') {
+      this.router.navigateByUrl(`accompaniments/form/edit/${event.meta.id}`);
+    }
+    //evento clicado
+    if (action === 'Clicked') {
+      this.router.navigateByUrl(`accompaniments/form/view/${event.meta.id}`);
+    }
+  }
+
+  deleteEvent(eventToDelete: CalendarEvent) {
+    console.log('event', eventToDelete);
+    this.accompanimentsService
+      .deleteAccompaniment(eventToDelete.meta.id)
+      .subscribe({
+        next: (response) => {
+          this.events = this.events.filter((event) => event !== eventToDelete);
+          this.loadEvents();
+        },
+        error: (error) => {
+          console.log('error', error);
+        },
+      });
   }
 
   closeOpenMonthViewDay() {
@@ -175,30 +206,4 @@ export class CalendarComponent implements OnInit {
       panelClass: [panelClass],
     });
   }
-
-  // deleteEvent(eventToDelete: CalendarEvent) {
-  //   this.events = this.events.filter((event) => event !== eventToDelete);
-  // }
-
-  // setView(view: CalendarView) {
-  //   this.view = view;
-  // }
-
-  // eventTimesChanged({
-  //   event,
-  //   newStart,
-  //   newEnd,
-  // }: CalendarEventTimesChangedEvent): void {
-  //   this.events = this.events.map((iEvent) => {
-  //     if (iEvent === event) {
-  //       return {
-  //         ...event,
-  //         start: newStart,
-  //         end: newEnd,
-  //       };
-  //     }
-  //     return iEvent;
-  //   });
-  //   this.handleEvent('Dropped or resized', event);
-  // }
 }
