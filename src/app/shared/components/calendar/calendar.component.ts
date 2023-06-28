@@ -14,10 +14,12 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import { Router } from '@angular/router';
-import { AccompanimentFormService } from '../../services/AccompanimentFormService';
+import { NavigationExtras, Router } from '@angular/router';
+import { AccompanimentFormService } from '../../services/AccompanimentForm.service';
 import { colors } from '../../utils/colors';
 import { AccompanimentsService } from 'src/app/accompaniments/accompaniments.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AccompanimentDataService } from '../../services/AccompanimentData.service';
 @Component({
   selector: 'mwl-demo-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,28 +66,25 @@ export class CalendarComponent implements OnInit {
     private modal: NgbModal,
     private router: Router,
     private accompanimentsService: AccompanimentsService,
-    private accompanimentFormService: AccompanimentFormService
+    private accompanimentFormService: AccompanimentFormService,
+    private accompanimentDataService: AccompanimentDataService,
+    private _snackBar: MatSnackBar
   ) {
     this.formData = this.accompanimentFormService.getFormData();
   }
 
   ngOnInit(): void {
-    if (this.formData) {
-      this.addEvent();
-      console.log('form', this.events);
-    }
-    this.loadEvents();
-    console.log('result', this.events);
+    this.formData ? this.addEvent() : this.loadEvents();
   }
 
   loadEvents() {
     this.accompanimentsService.getAccompaniments().subscribe({
-      next: (response : any) => {
+      next: (response: any) => {
         response.forEach((element: any) => {
           this.events.push({
             start: startOfDay(new Date(element.start)),
             title: element.title,
-            color: colors['red'],
+            color: colors['default'],
             actions: this.actions,
             allDay: true,
             meta: {
@@ -98,11 +97,61 @@ export class CalendarComponent implements OnInit {
         this.refresh.next();
       },
       error: (error) => {
-        console.log(error);
+        this.openSnackBar(
+          'Erro ao carregar os acompanhamentos.',
+          'Fechar',
+          'error-message'
+        );
       },
     });
   }
 
+  openAccompanimentForm() {
+    this.router.navigateByUrl('accompaniments/form/add');
+  }
+
+  addEvent(): void {
+    const data = {
+      title: this.formData.anotacoes,
+      start: this.formData.data,
+      pacienteId: this.formData.pacienteId,
+      profissionalId: this.formData.profissionalId,
+    };
+    this.accompanimentsService.addAccompaniment(data).subscribe({
+      next: (res) => {
+        this.openSnackBar(
+          'Acompanhamento cadastrado com sucesso!',
+          'Fechar',
+          'success-message'
+        );
+        this.accompanimentFormService.clearFormData();
+        this.loadEvents();
+      },
+      error: (error) => {
+        this.openSnackBar(
+          'Erro ao carregar a lista de pacientes.',
+          'Fechar',
+          'error-message'
+        );
+      },
+    });
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    const accompanimentData = {
+      anotacoes: event.title,
+      data: event.start,
+      pacienteId: event.meta.pacienteId,
+      profissionalId: event.meta.profissionalId,
+    };
+
+    this.accompanimentDataService.setData(accompanimentData);
+    this.router.navigateByUrl(`accompaniments/form/view/${event.meta.id}`);
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -118,61 +167,38 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
+  openSnackBar(message: string, action: string, panelClass: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+      panelClass: [panelClass],
     });
-    this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    const data = {
-      anotacoes: event.title,
-      data: event.start,
-      pacienteId: event.meta.pacienteId,
-      profissionalId: event.meta.profissionalId,
-    };
-    this.router.navigateByUrl(`accompaniments/view/${event.meta.id}`);
-  }
+  // deleteEvent(eventToDelete: CalendarEvent) {
+  //   this.events = this.events.filter((event) => event !== eventToDelete);
+  // }
 
-  openAccompanimentForm() {
-    this.router.navigateByUrl('accompaniments/form/add');
-  }
-  addEvent(): void {
-    const data = 
-      {
-        title: this.formData.anotacoes,
-        start: this.formData.data,
-        pacienteId: this.formData.pacienteId,
-        profissionalId: this.formData.profissionalId,
-      }
-      this.accompanimentsService.addAccompaniment(data).subscribe({
-        next: (response) => {
-          this.accompanimentFormService.clearFormData();
-          this.loadEvents();
-      }, error: (error) => {console.log('error', error)}
-  })}
+  // setView(view: CalendarView) {
+  //   this.view = view;
+  // }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
-  }
-
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
-  }
+  // eventTimesChanged({
+  //   event,
+  //   newStart,
+  //   newEnd,
+  // }: CalendarEventTimesChangedEvent): void {
+  //   this.events = this.events.map((iEvent) => {
+  //     if (iEvent === event) {
+  //       return {
+  //         ...event,
+  //         start: newStart,
+  //         end: newEnd,
+  //       };
+  //     }
+  //     return iEvent;
+  //   });
+  //   this.handleEvent('Dropped or resized', event);
+  // }
 }

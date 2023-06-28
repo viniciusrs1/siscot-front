@@ -63,7 +63,6 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
           this.rows = res ? res : [];
           this.temp = this.rows ? [...this.rows] : [];
           this.loading = false;
-          console.log(this.rows);
         },
         error: (error) => {
           this.openSnackBar(

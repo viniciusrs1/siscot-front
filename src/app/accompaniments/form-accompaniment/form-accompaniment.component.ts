@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AccompanimentsService } from '../accompaniments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AccompanimentFormService } from 'src/app/shared/services/AccompanimentFormService';
+import { AccompanimentFormService } from 'src/app/shared/services/AccompanimentForm.service';
+import { AccompanimentDataService } from 'src/app/shared/services/AccompanimentData.service';
 
 @Component({
   selector: 'app-form-accompaniment',
@@ -29,8 +30,11 @@ export class FormAccompanimentComponent
     public route: ActivatedRoute,
     private accompanimentsService: AccompanimentsService,
     private _snackBar: MatSnackBar,
-    private accompanimentFormService: AccompanimentFormService
-  ) {}
+    private accompanimentFormService: AccompanimentFormService,
+    private accompanimentDataService: AccompanimentDataService
+  ) {
+    this.item = accompanimentDataService.getData();
+  }
 
   ngOnInit(): void {
     this.createForm();
@@ -78,9 +82,6 @@ export class FormAccompanimentComponent
           this.professionals = res
             ? res.filter((val: any) => val.cargo === 'ASSISTENTE SOCIAL')
             : [];
-
-          console.log('pacientes', this.patients);
-          console.log('profissionais', this.professionals);
 
           this.loadingData = false;
         },
@@ -135,8 +136,8 @@ export class FormAccompanimentComponent
     this.addAccompanimentForm.setValue({
       pacienteId: this.item?.pacienteId,
       profissionalId: this.item?.profissionalId,
-      data: this.item?.data,
-      anotacoes: this.item?.anotacoes,
+      data: this.item?.start,
+      anotacoes: this.item?.title,
     });
   }
 
@@ -152,7 +153,6 @@ export class FormAccompanimentComponent
       // }
       this.addAccompanimentForm.value.data =
         this.addAccompanimentForm.value.data.toDate();
-      console.log('form', this.addAccompanimentForm.value);
 
       this.accompanimentFormService.setFormData(
         this.addAccompanimentForm.value

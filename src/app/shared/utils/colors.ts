@@ -1,6 +1,10 @@
 import { EventColor } from 'calendar-utils';
 
 export const colors: Record<string, EventColor> = {
+  default: {
+    primary: '#240747',
+    secondary: '#ffffff',
+  },
   red: {
     primary: '#ad2121',
     secondary: '#FAE3E3',

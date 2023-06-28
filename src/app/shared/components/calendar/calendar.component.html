@@ -64,7 +64,6 @@
         [activeDayIsOpen]="activeDayIsOpen"
         (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)"
       >
       </mwl-calendar-month-view>
       <mwl-calendar-week-view
@@ -75,7 +74,6 @@
         [refresh]="refresh"
         [locale]="locale"
         (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)"
       >
       </mwl-calendar-week-view>
       <mwl-calendar-day-view
@@ -86,14 +84,13 @@
         [locale]="locale"
         [refresh]="refresh"
         (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)"
       >
       </mwl-calendar-day-view>
     </div>
   </div>
 </div>
 
-<ng-template #modalContent let-close="close">
+<!-- <ng-template #modalContent let-close="close">
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>
     <button type="button" class="close" (click)="close()">
@@ -115,4 +112,4 @@
       OK
     </button>
   </div>
-</ng-template>
+</ng-template> -->

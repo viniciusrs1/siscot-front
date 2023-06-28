@@ -17,8 +17,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.name = this.cookieService.get('nome');
-
-    console.log('nome', this.cookieService.get('nome'));
   }
 
   logout(): void {
