@@ -1,0 +1,54 @@
+<div class="container-fluid g-0">
+  <div class="row g-0">
+    <div class="col-9 wrapper-logo">
+      <div class="logo">
+        <img src="../../../assets/images/logo_transparent.png" alt="Siscot" />
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form">
+        <p>Acesse sua conta</p>
+        <form action="" [formGroup]="loginForm">
+          <div>
+            <mat-form-field class="login-input">
+              <mat-label>Email</mat-label>
+
+              <input type="text" matInput formControlName="email" />
+              <mat-error *ngIf="loginForm?.get('email')?.hasError('required')">
+                <strong>Obrigatório</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field class="login-input">
+              <mat-label>Senha</mat-label>
+              <input
+                [type]="hide ? 'text' : 'password'"
+                matInput
+                formControlName="senha"
+              />
+
+              <button mat-icon-button matSuffix (click)="hide = !hide">
+                <mat-icon>{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+
+              <mat-error *ngIf="loginForm?.get('senha')?.hasError('required')">
+                <strong>Obrigatório</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-button">
+            <button class="login-button" (click)="login()">
+              <ng-container *ngIf="!loading">Entrar</ng-container>
+              <div *ngIf="loading" class="spinner-border" role="status"></div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

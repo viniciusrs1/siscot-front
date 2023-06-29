@@ -1,0 +1,98 @@
+<div class="accompaniments">
+  <app-sidebar></app-sidebar>
+  <div class="content">
+    <app-navbar></app-navbar>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2>Lista de Acompanhamentos</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <form action="">
+            <mat-form-field style="width: 100%">
+              <mat-label>Buscar</mat-label>
+
+              <input
+                type="text"
+                matInput
+                name="filter"
+                style="height: 24px"
+                [ngModel]="filter"
+                (ngModelChange)="updateFilter($event)"
+              />
+            </mat-form-field>
+          </form>
+        </div>
+
+        <div class="col-8 wrapper-button">
+          <button class="btn btn-lg" (click)="addAccompaniment()">
+            Adicionar Acompanhamento
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <ngx-datatable
+            class="material container striped"
+            [rows]="rows"
+            [columnMode]="'flex'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            rowHeight="auto"
+            [limit]="maxRows"
+            [loadingIndicator]="!rows || loading"
+            [messages]="{ emptyMessage: 'Nenhum acompanhamento encontrado.' }"
+          >
+            <ngx-datatable-column
+              name="Paciente"
+              prop="pacienteData.nome"
+              [flexGrow]="0.25"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Profissional"
+              prop="profissionalData.nome"
+              [flexGrow]="0.25"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column
+              name="Data"
+              prop="dataFormatada"
+              [flexGrow]="0.2"
+            ></ngx-datatable-column>
+
+            <ngx-datatable-column name="Ações" prop="" [flexGrow]="0.1">
+              <ng-template ngx-datatable-cell-template let-value="value">
+                <a class="link mr-2" (click)="viewAccompaniment(value.id)">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="visibility"
+                  ></mat-icon>
+                </a>
+                <a class="link mr-2" (click)="editAccompaniment(value.id)">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="edit"
+                  ></mat-icon>
+                </a>
+                <a class="link" (click)="confirmDeleteAccompaniment(value.id)">
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="delete"
+                  ></mat-icon>
+                </a>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+.content {
+  margin-bottom: 60px;
+}
+
+h3 {
+  margin: 0 0 10px;
+}
+
+h2 {
+  margin: 34px 0;
+}
+
+.addButton {
+  background: #240747;
+  color: white;
+
+  &:hover {
+    background: white;
+    text-decoration: none;
+    border: 1px solid #240747;
+    color: #240747;
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.top {
+  margin-bottom: 60px;
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+}
+
+.cal-header {
+  text-transform: capitalize;
+}
+
+.back-next-button {
+  background: #240747;
+  border: 1px solid #240747;
+  width: 85px;
+}
+
+.current-button {
+  background: white;
+  color: #240747;
+  width: 85px;
+  border: 1px solid #240747;
+}

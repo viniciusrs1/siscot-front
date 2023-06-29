@@ -1,0 +1,172 @@
+<div class="accompaniments">
+  <app-sidebar></app-sidebar>
+  <div class="content">
+    <app-navbar></app-navbar>
+    <div class="container" *ngIf="!loadingData">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="form-row">
+            <ng-container>
+              {{
+                route.snapshot.params["action"] === "edit"
+                  ? "Editar Acompanhamento"
+                  : route.snapshot.params["action"] === "view"
+                  ? "Visualizar Acompanhamento"
+                  : "Adicionar Acompanhamento"
+              }}
+            </ng-container>
+          </h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <form [formGroup]="addAccompanimentForm" (ngSubmit)="onSubmit()">
+          <div class="row form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Título</mat-label>
+                  <input type="text" matInput formControlName="title" />
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm?.get('title')?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Paciente</mat-label>
+                  <mat-select formControlName="pacienteId">
+                    <mat-option disabled *ngIf="patients?.length === 0" value=""
+                      >Nenhum paciente cadastrado</mat-option
+                    >
+                    <mat-option
+                      *ngFor="let item of patients"
+                      [value]="item.id"
+                      >{{ item.nome }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm
+                        ?.get('pacienteId')
+                        ?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-9">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Profissional</mat-label>
+                  <mat-select formControlName="profissionalId">
+                    <mat-option
+                      disabled
+                      *ngIf="professionals?.length === 0"
+                      value=""
+                      >Nenhum profissional cadastrado</mat-option
+                    >
+                    <mat-option
+                      *ngFor="let item of professionals"
+                      [value]="item.id"
+                      >{{ item.nome }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm
+                        ?.get('profissionalId')
+                        ?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Data</mat-label>
+
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="data"
+                  />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm?.get('data')?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group form-row">
+            <div class="row">
+              <div class="col-md-6">
+                <button
+                  class="btn btn-lg btn-warning text-white back-button"
+                  (click)="backPage()"
+                >
+                  Voltar
+                </button>
+              </div>
+              <div class="col-md-6 wrapper-save-accompaniment">
+                <button
+                  *ngIf="!disabled"
+                  class="btn btn-lg btn-success text-white save-accompaniment"
+                  type="submit"
+                >
+                  <ng-container *ngIf="!loading">
+                    {{ route.snapshot.params["id"] ? "Editar" : "Cadastrar" }}
+                  </ng-container>
+
+                  <div
+                    *ngIf="loading"
+                    class="spinner-border"
+                    role="status"
+                  ></div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="wrapper-loading">
+      <div *ngIf="loadingData" class="lod">
+        <mat-spinner [diameter]="54"></mat-spinner>
+      </div>
+    </div>
+  </div>
+</div>

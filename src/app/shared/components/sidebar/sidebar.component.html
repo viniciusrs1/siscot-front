@@ -1,0 +1,41 @@
+<div class="sidebar">
+  <div class="wrapper-image">
+    <img
+      src="./../../../../assets/images/logo_transparent2.png"
+      alt="logo siscot"
+    />
+  </div>
+  <div class="nav-items">
+    <a
+      class="link mr-2"
+      routerLink="/dashboard/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="home"
+      ></mat-icon>
+      <span>Início</span>
+    </a>
+
+    <a class="link mr-2" routerLink="/users/list" routerLinkActive="active">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="person"
+      ></mat-icon>
+      <span>Usuários</span>
+    </a>
+
+    <a class="link mr-2" routerLink="/patients/list" routerLinkActive="active">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="sick"
+      ></mat-icon>
+      <span>Pacientes</span>
+    </a>
+  </div>
+</div>
