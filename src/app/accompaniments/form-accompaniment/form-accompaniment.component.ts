@@ -92,6 +92,13 @@ export class FormAccompanimentComponent
 
   createForm(): void {
     this.addAccompanimentForm = new FormGroup({
+      title: new FormControl(
+        {
+          value: null,
+          disabled: this.disabled,
+        },
+        [Validators.required]
+      ),
       pacienteId: new FormControl(
         {
           value: null,
@@ -115,14 +122,6 @@ export class FormAccompanimentComponent
         },
         [Validators.required]
       ),
-
-      anotacoes: new FormControl(
-        {
-          value: null,
-          disabled: this.disabled,
-        },
-        []
-      ),
     });
   }
 
@@ -131,7 +130,7 @@ export class FormAccompanimentComponent
       pacienteId: this.item?.pacienteId,
       profissionalId: this.item?.profissionalId,
       data: this.item?.start,
-      anotacoes: this.item?.title,
+      title: this.item?.title,
     });
   }
 
@@ -155,7 +154,7 @@ export class FormAccompanimentComponent
       pacienteId: info.pacienteId,
       profissionalId: info.profissionalId,
       start: info.data,
-      title: info.anotacoes,
+      title: info.title,
     };
     this.accompanimentsService
       .addAccompaniment(data)
@@ -186,7 +185,7 @@ export class FormAccompanimentComponent
       pacienteId: info.pacienteId,
       profissionalId: info.profissionalId,
       start: info.data,
-      title: info.anotacoes,
+      title: info.title,
     };
 
     this.accompanimentsService

@@ -48,6 +48,11 @@
                       >Assistente Social</mat-option
                     >
                   </mat-select>
+                  <mat-error
+                    *ngIf="addUserForm?.get('cargo')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>

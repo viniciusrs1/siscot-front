@@ -46,6 +46,11 @@
                     <mat-option value="FEMININO">Feminino</mat-option>
                     <mat-option value="OUTRO">Outro</mat-option>
                   </mat-select>
+                  <mat-error
+                    *ngIf="addPatientForm?.get('genero')?.hasError('required')"
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -69,6 +74,15 @@
                     [for]="picker"
                   ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
+                  <mat-error
+                    *ngIf="
+                      addPatientForm
+                        ?.get('data_nascimento')
+                        ?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -160,7 +174,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
-                  <mat-label>Informações</mat-label>
+                  <mat-label>Informações Adicionais</mat-label>
                   <textarea
                     type="text"
                     matInput

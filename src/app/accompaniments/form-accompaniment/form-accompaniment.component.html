@@ -25,6 +25,26 @@
             <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
+                  <mat-label>Título</mat-label>
+                  <input type="text" matInput formControlName="title" />
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm?.get('title')?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
                   <mat-label>Paciente</mat-label>
                   <mat-select formControlName="pacienteId">
                     <mat-option disabled *ngIf="patients?.length === 0" value=""
@@ -36,6 +56,15 @@
                       >{{ item.nome }}</mat-option
                     >
                   </mat-select>
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm
+                        ?.get('pacienteId')
+                        ?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -61,6 +90,15 @@
                       >{{ item.nome }}</mat-option
                     >
                   </mat-select>
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm
+                        ?.get('profissionalId')
+                        ?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -80,24 +118,13 @@
                     [for]="picker"
                   ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-
-          <hr />
-
-          <div class="row form-row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <mat-form-field style="width: 100%">
-                  <mat-label>Anotações</mat-label>
-                  <textarea
-                    type="text"
-                    matInput
-                    formControlName="anotacoes"
-                    style="height: 100px"
-                  ></textarea>
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm?.get('data')?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
