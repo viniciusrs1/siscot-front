@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { startOfDay, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import {
@@ -11,6 +16,7 @@ import { AccompanimentFormService } from '../../services/AccompanimentForm.servi
 import { colors } from '../../utils/colors';
 import { AccompanimentsService } from 'src/app/accompaniments/accompaniments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'mwl-demo-component',
@@ -19,7 +25,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
   templateUrl: './calendar.component.html',
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
@@ -27,6 +33,9 @@ export class CalendarComponent implements OnInit {
   refresh = new Subject<void>();
   activeDayIsOpen: boolean = false;
   formData: any;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  events: CalendarEvent[] = [];
 
   actions: CalendarEventAction[] = [
     {
@@ -46,8 +55,6 @@ export class CalendarComponent implements OnInit {
     },
   ];
 
-  events: CalendarEvent[] = [];
-
   constructor(
     private router: Router,
     private accompanimentsService: AccompanimentsService,
@@ -61,34 +68,42 @@ export class CalendarComponent implements OnInit {
     this.formData ? this.addEvent() : this.loadEvents();
   }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   loadEvents() {
-    this.accompanimentsService.getAccompaniments().subscribe({
-      next: (response: any) => {
-        this.events = [];
-        response.forEach((element: any) => {
-          this.events.push({
-            start: startOfDay(new Date(element.start)),
-            title: element.title,
-            color: colors['default'],
-            actions: this.actions,
-            allDay: true,
-            meta: {
-              id: element.id,
-              pacienteId: element.pacienteId,
-              profissionalId: element.profissionalId,
-            },
+    this.accompanimentsService
+      .getAccompaniments()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: any) => {
+          this.events = [];
+          response.forEach((element: any) => {
+            this.events.push({
+              start: startOfDay(new Date(element.start)),
+              title: element.title,
+              color: colors['default'],
+              actions: this.actions,
+              allDay: true,
+              meta: {
+                id: element.id,
+                pacienteId: element.pacienteId,
+                profissionalId: element.profissionalId,
+              },
+            });
           });
-        });
-        this.refresh.next();
-      },
-      error: (error) => {
-        this.openSnackBar(
-          'Erro ao carregar os acompanhamentos.',
-          'Fechar',
-          'error-message'
-        );
-      },
-    });
+          this.refresh.next();
+        },
+        error: (error) => {
+          this.openSnackBar(
+            'Erro ao carregar os acompanhamentos.',
+            'Fechar',
+            'error-message'
+          );
+        },
+      });
   }
 
   openAccompanimentForm() {
@@ -102,24 +117,27 @@ export class CalendarComponent implements OnInit {
       pacienteId: this.formData.pacienteId,
       profissionalId: this.formData.profissionalId,
     };
-    this.accompanimentsService.addAccompaniment(data).subscribe({
-      next: (res) => {
-        this.openSnackBar(
-          'Acompanhamento cadastrado com sucesso!',
-          'Fechar',
-          'success-message'
-        );
-        this.accompanimentFormService.clearFormData();
-        this.loadEvents();
-      },
-      error: (error) => {
-        this.openSnackBar(
-          'Erro ao carregar a lista de pacientes.',
-          'Fechar',
-          'error-message'
-        );
-      },
-    });
+    this.accompanimentsService
+      .addAccompaniment(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.openSnackBar(
+            'Acompanhamento cadastrado com sucesso!',
+            'Fechar',
+            'success-message'
+          );
+          this.accompanimentFormService.clearFormData();
+          this.loadEvents();
+        },
+        error: (error) => {
+          this.openSnackBar(
+            'Erro ao carregar a lista de pacientes.',
+            'Fechar',
+            'error-message'
+          );
+        },
+      });
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -139,6 +157,7 @@ export class CalendarComponent implements OnInit {
   deleteEvent(eventToDelete: CalendarEvent) {
     this.accompanimentsService
       .deleteAccompaniment(eventToDelete.meta.id)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
           this.openSnackBar(

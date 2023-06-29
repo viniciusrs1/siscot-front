@@ -141,11 +141,9 @@ export class FormAccompanimentComponent
       this.loading = true;
       if (this.route.snapshot.params['id']) {
         data.id = this.route.snapshot.params['id'];
-        console.log('edit', data);
         this.editAccompaniment(data);
       } else {
         this.addAccompaniment(data);
-        console.log('data', data);
       }
     } else {
       this.addAccompanimentForm.markAllAsTouched();
