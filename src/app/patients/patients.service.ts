@@ -10,25 +10,39 @@ export class PatientsService {
   constructor(private httpClient: HttpClient) {}
 
   addPatient(user: any): Observable<void> {
-    return this.httpClient.post<void>(`${environment.api}/pacientes`, user);
+    return this.httpClient.post<void>(
+      `${environment.api}/pacientes`,
+      user,
+      { withCredentials: true }
+    );
   }
 
   getPatients(): Observable<void> {
-    return this.httpClient.get<void>(`${environment.api}/pacientes`);
+    return this.httpClient.get<void>(
+      `${environment.api}/pacientes`,
+      { withCredentials: true }
+    );
   }
 
   getPatientsById(id: number): Observable<any> {
-    return this.httpClient.get<any>(`${environment.api}/pacientes/${id}`);
+    return this.httpClient.get<any>(
+      `${environment.api}/pacientes/${id}`,
+      { withCredentials: true }
+    );
   }
 
   updatePatient(user: any): Observable<void> {
     return this.httpClient.put<void>(
       `${environment.api}/pacientes/${user.id}`,
-      user
+      user,
+      { withCredentials: true }
     );
   }
 
   deletePatient(id: number): Observable<any> {
-    return this.httpClient.delete<any>(`${environment.api}/pacientes/${id}`);
+    return this.httpClient.delete<any>(
+      `${environment.api}/pacientes/${id}`,
+      { withCredentials: true }
+    );
   }
 }

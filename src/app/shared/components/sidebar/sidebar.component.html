@@ -1,9 +1,6 @@
 <div class="sidebar">
   <div class="wrapper-image">
-    <img
-      src="./../../../../assets/images/logo_transparent2.png"
-      alt="logo siscot"
-    />
+    <img src="./../../../../assets/images/logo_transparent2.png" alt="logo siscot" />
   </div>
   <div class="nav-items">
     <a
@@ -20,14 +17,16 @@
       <span>Início</span>
     </a>
 
-    <a class="link mr-2" routerLink="/users/list" routerLinkActive="active">
-      <mat-icon
-        aria-hidden="false"
-        aria-label="Example home icon"
-        fontIcon="person"
-      ></mat-icon>
-      <span>Usuários</span>
-    </a>
+    <ng-container *ngIf="isAdmin()">
+      <a class="link mr-2" routerLink="/users/list" routerLinkActive="active">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          fontIcon="person"
+        ></mat-icon>
+        <span>Usuários</span>
+      </a>
+    </ng-container>
 
     <a class="link mr-2" routerLink="/patients/list" routerLinkActive="active">
       <mat-icon

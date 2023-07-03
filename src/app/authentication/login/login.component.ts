@@ -52,8 +52,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (res: any) => {
-            this.cookieService.set('token', res.token);
-            this.cookieService.set('nome', res.usuario.nome);
+            this.cookieService.set('token', res.token, 1, '/');
+            this.cookieService.set('nome', res.usuario.nome, 1, '/');
+            this.cookieService.set('cargo', res.usuario.cargo, 1, '/');
             this.router.navigate(['/dashboard/home']);
           },
           error: (error: any) => {

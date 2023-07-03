@@ -80,8 +80,9 @@ export class FormUserComponent implements OnInit, OnChanges, OnDestroy {
       nome: this.item?.nome,
       email: this.item?.email,
       cargo: this.item?.cargo,
-      senha: this.item?.senha,
+      senha: "Senha Criptografada",
     });
+    console.log("this.item?.nome", this.item?.nome)
   }
 
   onSubmit(): void {

@@ -12,36 +12,51 @@ export class AccompanimentsService {
   addAccompaniment(accompaniment: any): Observable<void> {
     return this.httpClient.post<void>(
       `${environment.api}/acompanhamentos`,
-      accompaniment
+      accompaniment,
+      { withCredentials: true }
     );
   }
 
   getAccompaniments(): Observable<void> {
-    return this.httpClient.get<void>(`${environment.api}/acompanhamentos`);
+    return this.httpClient.get<void>(
+      `${environment.api}/acompanhamentos`,
+      { withCredentials: true }
+    );
   }
 
   getAccompanimentById(id: number): Observable<any> {
-    return this.httpClient.get<any>(`${environment.api}/acompanhamentos/${id}`);
+    return this.httpClient.get<any>(
+      `${environment.api}/acompanhamentos/${id}`,
+      { withCredentials: true }
+    );
   }
 
   updateAccompaniment(accompaniment: any): Observable<void> {
     return this.httpClient.put<void>(
       `${environment.api}/acompanhamentos/${accompaniment.id}`,
-      accompaniment
+      accompaniment,
+      { withCredentials: true }
     );
   }
 
   deleteAccompaniment(id: number): Observable<any> {
     return this.httpClient.delete<any>(
-      `${environment.api}/acompanhamentos/${id}`
+      `${environment.api}/acompanhamentos/${id}`,
+      { withCredentials: true }
     );
   }
 
   getPatients(): Observable<void> {
-    return this.httpClient.get<void>(`${environment.api}/pacientes`);
+    return this.httpClient.get<void>(
+      `${environment.api}/pacientes`,
+      { withCredentials: true }
+    );
   }
 
   getUsers(): Observable<void> {
-    return this.httpClient.get<void>(`${environment.api}/usuarios`);
+    return this.httpClient.get<void>(
+      `${environment.api}/usuarios`,
+      { withCredentials: true }
+    );
   }
 }

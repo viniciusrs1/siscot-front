@@ -22,10 +22,12 @@ export class AuthenticationService {
   isAuthenticated(): boolean {
     return this.cookieService.check('token');
   }
+  
 
   logout(): void {
     this.cookieService.delete('token');
     this.cookieService.delete('nome');
+    this.cookieService.delete('cargo');
     this.router.navigate(['/authentication/login']);
   }
 }
