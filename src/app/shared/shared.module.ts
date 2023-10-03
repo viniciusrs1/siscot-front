@@ -6,9 +6,15 @@ import { CommonModulesModule } from './modules/common-modules.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AngularCalendarModule } from './modules/angular-calendar.module';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 @NgModule({
-  declarations: [SidebarComponent, NavbarComponent, CalendarComponent],
+  declarations: [
+    SidebarComponent,
+    NavbarComponent,
+    CalendarComponent,
+    AttendanceComponent,
+  ],
   imports: [
     CommonModule,
     AngularMaterialModule,
@@ -19,6 +25,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     SidebarComponent,
     NavbarComponent,
     CalendarComponent,
+    AttendanceComponent,
     AngularMaterialModule,
     CommonModulesModule,
     AngularCalendarModule,

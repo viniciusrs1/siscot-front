@@ -1,0 +1,159 @@
+<!-- <div class="row">
+    <div class="col-6">
+      <div class="title"><h4>Todos Pacientes</h4></div>
+      <div class="wrapper-loading-content">
+        <div *ngIf="loadingPatients" class="progress loading">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            aria-valuenow="100"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+        <ul class="patients-list">
+          <li *ngIf="patients.length === 0">Nenhum paciente encontrado</li>
+          <li *ngFor="let item of patients">
+            {{ item.name }}
+            <button
+              *ngIf="!disabled"
+              type="button"
+              placement="bottom"
+              data-toggle="tooltip"
+              ngbTooltip="Inserir no acompanhamento"
+            >
+              <i
+                class="fas fa-arrow-circle-right"
+                (click)="openModalAbsenceJustification(item)"
+              ></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="col-6">
+      <div class="title"><h4>Pacientes no acompanhamento</h4></div>
+      <div class="wrapper-loading-content">
+        <div *ngIf="loadingAttendances" class="progress loading">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            aria-valuenow="100"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+  
+        <ul class="attendances-list">
+          <li *ngIf="attendances.length === 0">Nenhum paciente no acompanhamento</li>
+          <li *ngFor="let item of attendances">
+            {{ item.absent_user
+            }}<span
+              ><button
+                type="button"
+                placement="bottom"
+                data-toggle="tooltip"
+                ngbTooltip="Ver justificativa"
+              >
+                <i
+                  class="fas fa-eye fa-lg icon-view"
+                  (click)="openModalAbsenceJustification(item)"
+                ></i></button
+              ><button
+                *ngIf="!disabled"
+                type="button"
+                placement="bottom"
+                data-toggle="tooltip"
+                ngbTooltip="Remover ausência"
+              >
+                <i
+                  class="fas fa-arrow-circle-left"
+                  (click)="deleteAbsence(item.id)"
+                ></i></button
+            ></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> -->
+
+<div class="row">
+  <div class="col-6">
+    <div class="title"><h4>Presentes</h4></div>
+    <div class="wrapper-loading-content">
+      <div *ngIf="loadingMembers" class="progress loading">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated"
+          role="progressbar"
+          aria-valuenow="100"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+      <ul class="members-list">
+        <li *ngIf="members.length === 0">Nenhum paciente encontrado</li>
+        <li *ngFor="let item of members">
+          {{ item.name }}
+          <button
+            *ngIf="!disabled"
+            type="button"
+            placement="bottom"
+            data-toggle="tooltip"
+            ngbTooltip="Marcar ausência"
+          >
+            <i
+              class="fas fa-arrow-circle-right"
+              (click)="openModalAbsenceJustification(item)"
+            ></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="title"><h4>Ausentes</h4></div>
+    <div class="wrapper-loading-content">
+      <div *ngIf="loadingAbsences" class="progress loading">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated"
+          role="progressbar"
+          aria-valuenow="100"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+
+      <ul class="absences-list">
+        <li *ngIf="absences.length === 0">Nenhum paciente ausente</li>
+        <li *ngFor="let item of absences">
+          {{ item.absent_user
+          }}<span
+            ><button
+              type="button"
+              placement="bottom"
+              data-toggle="tooltip"
+              ngbTooltip="Ver justificativa"
+            >
+              <i
+                class="fas fa-eye fa-lg icon-view"
+                (click)="openModalAbsenceJustification(item)"
+              ></i></button
+            ><button
+              *ngIf="!disabled"
+              type="button"
+              placement="bottom"
+              data-toggle="tooltip"
+              ngbTooltip="Remover ausência"
+            >
+              <i
+                class="fas fa-arrow-circle-left"
+                (click)="deleteAbsence(item.id)"
+              ></i></button
+          ></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

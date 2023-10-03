@@ -1,0 +1,66 @@
+.members-list,
+.absences-list {
+  padding-left: 0;
+  overflow-y: auto;
+  max-height: 347px;
+  min-height: 347px;
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.members-list li,
+.absences-list li {
+  padding: 1rem;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.members-list li button,
+.absences-list li button {
+  border: none;
+  background: transparent;
+  color: #3e5569;
+}
+
+.members-list li:nth-child(odd),
+.absences-list li:nth-child(odd) {
+  background: #f7f7f7;
+}
+
+.members-list i,
+.absences-list i {
+  font-size: 22px;
+}
+
+.absences-list span {
+  display: flex;
+  align-items: center;
+}
+
+.wrapper-loading-content {
+  border: 1px solid #44134b;
+}
+
+.title {
+  background: #44134b;
+}
+
+h4 {
+  text-align: center;
+
+  color: white;
+  padding: 1rem;
+
+  margin: 0;
+}
+
+.loading {
+  height: 6px;
+}
+
+.loading .progress-bar {
+  background-color: #2962ff;
+  width: 100%;
+}
