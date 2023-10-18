@@ -150,12 +150,14 @@ export class FormAccompanimentComponent
   }
 
   addAccompaniment(info: any): void {
+    console.log(`acompanhamento`, info);
     const data = {
       pacienteId: info.pacienteId,
       profissionalId: info.profissionalId,
       start: info.data,
       title: info.title,
     };
+    console.log(`acompanhamento depois`, data);
     this.accompanimentsService
       .addAccompaniment(data)
       .pipe(takeUntil(this.destroy$))

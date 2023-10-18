@@ -71,6 +71,36 @@
           </div>
 
           <hr /> -->
+          <div class="row form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Pacientes</mat-label>
+                  <mat-select formControlName="pacienteId" multiple>
+                    <mat-option disabled *ngIf="patients?.length === 0" value=""
+                      >Nenhum paciente cadastrado</mat-option
+                    >
+                    <mat-option
+                      *ngFor="let item of patients"
+                      [value]="item.id"
+                      >{{ item.nome }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      addAccompanimentForm
+                        ?.get('pacienteId')
+                        ?.hasError('required')
+                    "
+                  >
+                    <strong>Obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <hr />
 
           <div class="row form-row">
             <div class="col-md-9">
@@ -129,9 +159,9 @@
               </div>
             </div>
           </div>
-          <hr />
+          <!-- <hr /> -->
 
-          <app-attendance></app-attendance>
+          <!-- <app-attendance></app-attendance> -->
 
           <div class="button-group form-row">
             <div class="row">
