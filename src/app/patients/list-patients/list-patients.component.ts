@@ -5,6 +5,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-list-patients',
@@ -18,6 +21,7 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
   filter: string = '';
   maxRows: number = 10;
   loading: boolean = false;
+  tabela: string = '';
 
   constructor(
     private route: Router,
@@ -58,6 +62,7 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
           });
 
           this.rows = res ? res : [];
+          console.log(this.rows);
           this.temp = this.rows ? [...this.rows] : [];
           this.loading = false;
         },
@@ -151,5 +156,22 @@ export class ListPatientsComponent implements OnInit, OnDestroy {
       duration: 3000,
       panelClass: [panelClass],
     });
+  }
+
+  createPDF(): void {
+    const pdf = new jsPDF();
+    pdf.text('Lista de Pacientes', 14, 14);
+
+    autoTable(pdf, {
+      head: [['Nome', 'Endereço', 'Telefone', 'Email']],
+      body: this.rows.map((row: any) => [
+        row.nome,
+        row.enderecoFormatado,
+        row.telefoneFormatado,
+        row.email,
+      ]),
+      startY: 24,
+    });
+    pdf.save('Siscot - Lista de Pacientes.pdf');
   }
 }

@@ -44,5 +44,33 @@
     a:not(.fa-trash) {
       margin-right: 8px;
     }
+
+    .table-footer {
+      padding: 0 1.2rem;
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .pdf-button {
+      background: white;
+      text-decoration: none;
+      border: 1px solid #240747;
+      color: #240747;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 14px;
+
+      &:hover {
+        background: #240747;
+        text-decoration: none;
+        border: 1px solid #240747;
+        color: white;
+      }
+
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
   }
 }
