@@ -23,6 +23,8 @@ export class FormAccompanimentComponent
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  temp: any;
+
   constructor(
     private router: Router,
     public route: ActivatedRoute,
@@ -42,7 +44,8 @@ export class FormAccompanimentComponent
 
   ngOnChanges(): void {
     if (this.addAccompanimentForm && this.item) {
-      this.populateForm();
+      // this.populateForm();
+      this.populateFormMock();
     }
   }
 
@@ -150,17 +153,19 @@ export class FormAccompanimentComponent
   }
 
   addAccompaniment(info: any): void {
-    const data = {
+    let data = {
       pacienteId: info.pacienteId,
       profissionalId: info.profissionalId,
       start: info.data,
       title: info.title,
     };
+    data = this.formataAcompanhamentoMock(data);
     this.accompanimentsService
       .addAccompaniment(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => {
+        next: (res: any) => {
+          this.guardaAcompanhamentoMock(res);
           this.openSnackBar(
             'Acompanhamento cadastrado com sucesso!',
             'Fechar',
@@ -177,6 +182,58 @@ export class FormAccompanimentComponent
           this.loading = false;
         },
       });
+  }
+
+  formataAcompanhamentoMock(data: any) {
+    this.temp = data.pacienteId;
+    if (data.pacienteId && data.pacienteId.length > 0) {
+      data.pacienteId = [data.pacienteId[0]];
+    }
+    return data;
+  }
+
+  guardaAcompanhamentoMock(res: any) {
+    let acompanhamentos: any[] = [];
+
+    const acompanhamentosLocalStorage = localStorage.getItem('acompanhamentos');
+    if (acompanhamentosLocalStorage) {
+      acompanhamentos = JSON.parse(acompanhamentosLocalStorage);
+    }
+
+    const data = {
+      id: res.id,
+      pacienteId: this.temp,
+      profissionalId: res.profissionalId,
+      start: res.start,
+      title: res.title,
+    };
+
+    acompanhamentos.push(data);
+    localStorage.setItem('acompanhamentos', JSON.stringify(acompanhamentos));
+  }
+
+  populateFormMock() {
+    const dadosLocalStorage = localStorage.getItem('acompanhamentos');
+
+    if (dadosLocalStorage) {
+      const dadosArray: any[] = JSON.parse(dadosLocalStorage);
+      const itemEncontrado = dadosArray.find(
+        (item) => item.id === this.item.id
+      );
+
+      if (itemEncontrado) {
+        this.addAccompanimentForm.setValue({
+          pacienteId: itemEncontrado.pacienteId,
+          profissionalId: this.item?.profissionalId,
+          data: this.item?.start,
+          title: this.item?.title,
+        });
+      } else {
+        console.log('Item não encontrado.');
+      }
+    } else {
+      console.log('Nenhum dado encontrado no localStorage.');
+    }
   }
 
   editAccompaniment(info: any): void {

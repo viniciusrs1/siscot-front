@@ -160,6 +160,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
+          this.deletarAcompanhamentoMock(eventToDelete.meta.id);
           this.openSnackBar(
             'Acompanhamento deletado com sucesso!',
             'Fechar',
@@ -176,6 +177,38 @@ export class CalendarComponent implements OnInit, OnDestroy {
           );
         },
       });
+  }
+
+  deletarAcompanhamentoMock(id: any) {
+    // Obtém os acompanhamentos do localStorage
+    const acompanhamentosLocalStorage = localStorage.getItem('acompanhamentos');
+
+    if (acompanhamentosLocalStorage) {
+      // Parse dos acompanhamentos do localStorage para um array de objetos
+      let acompanhamentos: any[] = JSON.parse(acompanhamentosLocalStorage);
+
+      // Encontra o índice do objeto com o ID correspondente ao ID recebido por parâmetro
+      const indiceAcompanhamento = acompanhamentos.findIndex(
+        (item) => item.id === id
+      );
+
+      if (indiceAcompanhamento !== -1) {
+        // Remove o item do array
+        acompanhamentos.splice(indiceAcompanhamento, 1);
+
+        // Atualiza o localStorage com o novo array de acompanhamentos
+        localStorage.setItem(
+          'acompanhamentos',
+          JSON.stringify(acompanhamentos)
+        );
+
+        console.log(`Acompanhamento com ID ${id} removido com sucesso.`);
+      } else {
+        console.log(`Acompanhamento com ID ${id} não encontrado.`);
+      }
+    } else {
+      console.log('Nenhum acompanhamento encontrado no localStorage.');
+    }
   }
 
   closeOpenMonthViewDay() {

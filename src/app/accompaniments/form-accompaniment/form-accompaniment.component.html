@@ -45,8 +45,8 @@
             <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field style="width: 100%">
-                  <mat-label>Paciente</mat-label>
-                  <mat-select formControlName="pacienteId">
+                  <mat-label>Pacientes</mat-label>
+                  <mat-select formControlName="pacienteId" multiple>
                     <mat-option disabled *ngIf="patients?.length === 0" value=""
                       >Nenhum paciente cadastrado</mat-option
                     >
