@@ -17,6 +17,8 @@ import { colors } from '../../utils/colors';
 import { AccompanimentsService } from 'src/app/accompaniments/accompaniments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil } from 'rxjs/operators';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'mwl-demo-component',
@@ -34,6 +36,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   activeDayIsOpen: boolean = false;
   formData: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  patients: any;
+  professionals: any;
 
   events: CalendarEvent[] = [];
 
@@ -66,6 +70,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formData ? this.addEvent() : this.loadEvents();
+    this.getPatients();
   }
 
   ngOnDestroy() {
@@ -179,24 +184,57 @@ export class CalendarComponent implements OnInit, OnDestroy {
       });
   }
 
+  getPatients(): any {
+    this.accompanimentsService
+      .getPatients()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.patients = res ? res : [];
+          this.getProfessional();
+        },
+        error: (error: any) => {
+          this.openSnackBar(
+            'Erro ao carregar a lista de pacientes.',
+            'Fechar',
+            'error-message'
+          );
+        },
+      });
+  }
+
+  getProfessional(): any {
+    this.accompanimentsService
+      .getUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.professionals = res
+            ? res.filter((val: any) => val.cargo === 'ASSISTENTE SOCIAL')
+            : [];
+        },
+        error: (error: any) => {
+          this.openSnackBar(
+            'Erro ao carregar a lista de profissionais.',
+            'Fechar',
+            'error-message'
+          );
+        },
+      });
+  }
+
   deletarAcompanhamentoMock(id: any) {
-    // Obtém os acompanhamentos do localStorage
     const acompanhamentosLocalStorage = localStorage.getItem('acompanhamentos');
 
     if (acompanhamentosLocalStorage) {
-      // Parse dos acompanhamentos do localStorage para um array de objetos
       let acompanhamentos: any[] = JSON.parse(acompanhamentosLocalStorage);
 
-      // Encontra o índice do objeto com o ID correspondente ao ID recebido por parâmetro
       const indiceAcompanhamento = acompanhamentos.findIndex(
         (item) => item.id === id
       );
 
       if (indiceAcompanhamento !== -1) {
-        // Remove o item do array
         acompanhamentos.splice(indiceAcompanhamento, 1);
-
-        // Atualiza o localStorage com o novo array de acompanhamentos
         localStorage.setItem(
           'acompanhamentos',
           JSON.stringify(acompanhamentos)
@@ -236,5 +274,70 @@ export class CalendarComponent implements OnInit, OnDestroy {
       duration: 3000,
       panelClass: [panelClass],
     });
+  }
+
+  createPDF(): void {
+    const pdf = new jsPDF();
+    pdf.text('Relatório de Acompanhamentos', 14, 14);
+
+    const acompanhamentosLocalStorage = localStorage.getItem('acompanhamentos');
+
+    if (acompanhamentosLocalStorage) {
+      const acompanhamentos: any[] = JSON.parse(acompanhamentosLocalStorage);
+
+      acompanhamentos.sort(
+        (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+      );
+
+      const professionalsMap = this.professionals.reduce(
+        (acc: any, prof: any) => {
+          acc[prof.id] = prof.nome;
+          return acc;
+        },
+        {}
+      );
+
+      const patientsMap = this.patients.reduce((acc: any, patient: any) => {
+        acc[patient.id] = patient.nome;
+        return acc;
+      }, {});
+
+      autoTable(pdf, {
+        head: [['Título', 'Profissional', 'Pacientes', 'Data']],
+        body: acompanhamentos.map((acompanhamento) => [
+          acompanhamento.title,
+          professionalsMap[acompanhamento.profissionalId] || '',
+          this.formatPatients(acompanhamento.pacienteId, patientsMap),
+          this.formatDate(acompanhamento.start),
+        ]),
+        startY: 24,
+        // theme: 'striped',
+        // styles: { lineWidth: 0.1, lineColor: [0, 0, 0] },
+      });
+
+      pdf.save('Siscot - Lista de Acompanhamentos.pdf');
+    } else {
+      console.log('Nenhum dado encontrado no localStorage.');
+    }
+  }
+
+  // Função para formatar a data no estilo desejado
+  formatDate(dateString: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    };
+    return new Date(dateString).toLocaleDateString('pt-BR', options);
+  }
+
+  // Função para formatar a lista de pacientes
+  formatPatients(
+    patientIds: number[],
+    patientsMap: Record<number, string>
+  ): string {
+    return patientIds
+      .map((patientId) => patientsMap[patientId] || '')
+      .join('\n');
   }
 }

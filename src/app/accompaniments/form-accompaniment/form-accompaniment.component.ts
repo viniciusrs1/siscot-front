@@ -138,7 +138,9 @@ export class FormAccompanimentComponent
   }
 
   onSubmit(): void {
+    console.log('1', this.addAccompanimentForm.value);
     const data: any = { ...this.addAccompanimentForm.value };
+    console.log('2', data);
     if (this.addAccompanimentForm.valid) {
       this.loading = true;
       if (this.route.snapshot.params['id']) {
@@ -214,12 +216,9 @@ export class FormAccompanimentComponent
 
   populateFormMock() {
     const dadosLocalStorage = localStorage.getItem('acompanhamentos');
-
     if (dadosLocalStorage) {
       const dadosArray: any[] = JSON.parse(dadosLocalStorage);
-      const itemEncontrado = dadosArray.find(
-        (item) => item.id === this.item.id
-      );
+      const itemEncontrado = dadosArray.find((item) => item.id == this.item.id);
 
       if (itemEncontrado) {
         this.addAccompanimentForm.setValue({
@@ -236,20 +235,51 @@ export class FormAccompanimentComponent
     }
   }
 
+  guardaAcompanhamentoMockEdit(data: any) {
+    const dadosLocalStorage = localStorage.getItem('acompanhamentos');
+
+    if (dadosLocalStorage) {
+      const dadosArray: any[] = JSON.parse(dadosLocalStorage);
+      const indexEncontrado = dadosArray.findIndex(
+        (item) => item.id == data.id
+      );
+      if (indexEncontrado !== -1) {
+        // Atualiza o objeto no array com base no índice encontrado
+        dadosArray[indexEncontrado] = {
+          pacienteId: this.temp,
+          profissionalId: data.profissionalId,
+          data: data.start,
+          title: data.title,
+          id: data.id, // Garante que o id permaneça inalterado
+        };
+
+        // Atualiza o localStorage com o array modificado
+        localStorage.setItem('acompanhamentos', JSON.stringify(dadosArray));
+
+        console.log('Item atualizado com sucesso.');
+      } else {
+        console.log('Item não encontrado no localStorage.');
+      }
+    } else {
+      console.log('Nenhum dado encontrado no localStorage.');
+    }
+  }
+
   editAccompaniment(info: any): void {
-    const data = {
+    let data = {
       id: info.id,
       pacienteId: info.pacienteId,
       profissionalId: info.profissionalId,
       start: info.data,
       title: info.title,
     };
-
+    data = this.formataAcompanhamentoMock(data);
     this.accompanimentsService
       .updateAccompaniment(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => {
+        next: (res: any) => {
+          this.guardaAcompanhamentoMockEdit(data);
           this.router.navigateByUrl('/dashboard/home');
           this.openSnackBar(
             'Acompanhamento editado com sucesso!',

@@ -5,6 +5,8 @@ import { AccompanimentsService } from '../accompaniments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-list-accompaniments',

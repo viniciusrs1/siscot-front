@@ -51,3 +51,30 @@ pre {
   width: 85px;
   border: 1px solid #240747;
 }
+
+.pdf-wrapper {
+  display: flex;
+  justify-content: end;
+  margin: 30px 0;
+}
+
+.pdf-button {
+  background: white;
+  text-decoration: none;
+  border: 1px solid #240747;
+  color: #240747;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 14px;
+
+  &:hover {
+    background: #240747;
+    text-decoration: none;
+    border: 1px solid #240747;
+    color: white;
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
